@@ -24,11 +24,11 @@
 
 ```mermaid
 graph LR
-    A["Audits<br/><small>weeks before</small>"] --> B["Checklist<br/><small>day before</small>"]
-    B --> C["Launch"]
-    C --> D["Monitoring<br/><small>72 hours</small>"]
-    C --> E{"Problem?"}
-    E -->|yes| F["Rollback<br/>Decision Tree"]
+    A[Audits] --> B[Checklist]
+    B --> C[Launch]
+    C --> D[Monitor 72h]
+    C --> E{Problem?}
+    E -- yes --> F[Rollback Tree]
     F --> C
 ```
 

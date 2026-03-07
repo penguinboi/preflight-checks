@@ -1,6 +1,6 @@
 # Production Readiness Playbook
 
-Seven audits that take a project from "it works on my machine" to production-grade. Run them in order — each builds on the previous. Give each prompt to Claude Code in your project root.
+Seven audits that take a project from "it works on my machine" to production-grade. Run them in order — each builds on the previous. Give each prompt to your AI coding assistant (Claude Code, Cursor, Copilot, Windsurf, etc.) in your project root — or use them as manual review checklists.
 
 ---
 
@@ -259,6 +259,13 @@ Check each category. For each finding, cite file path, line numbers, code snippe
   - Global Privacy Control (GPC) signal detection and response
   - Visible opt-out confirmation (2026 CPRA requirement)
 - US state privacy laws: check applicability of Delaware, Iowa, Minnesota, Nebraska, New Hampshire, New Jersey, Maryland, Tennessee, Indiana, Kentucky, Rhode Island privacy acts
+- International privacy laws (check applicability based on where users are located):
+  - LGPD (Brazil): consent requirements, DPO appointment, data subject rights similar to GDPR
+  - PIPEDA (Canada): meaningful consent, breach reporting, right of access
+  - PIPL (China): separate consent for cross-border transfers, data localization requirements
+  - APPI (Japan): purpose limitation, opt-out of third-party sharing, cross-border transfer rules
+  - PDPA (Singapore/Thailand): consent and notification requirements, Do Not Call registry (Singapore)
+  - POPIA (South Africa): lawful processing conditions, Information Officer registration
 - COPPA compliance (if app could attract under-13 users): no data collection without verifiable parental consent
 - Data retention policy documented and enforced
 - Third-party data sharing disclosures accurate (analytics, payment processors, AI services, ad networks)
@@ -357,7 +364,7 @@ Produce two documents:
 - Platform-specific submission requirements
 - Each task: what to create/change, regulatory basis, how to verify
 - Flag tasks requiring legal review as "legal review recommended"
-- Flag tasks requiring platform action (App Store submission, GSC verification) as "manual — Skyler"
+- Flag tasks requiring platform action (App Store submission, GSC verification) as "manual — user action required"
 
 After both documents are saved, ask me whether I want to execute the plan.
 ```
@@ -545,10 +552,12 @@ After both documents are saved, ask me whether I want to execute the plan.
 
 Covers: meta tags, Open Graph/social cards, structured data (JSON-LD), crawlability, favicons, content structure, image optimization, and performance factors that affect search ranking. Skip this for backend-only, CLI, mobile-only, or non-web projects.
 
-This section incorporates the full SEO playbook — audit checks, implementation templates, and gotchas are all included below.
+This section incorporates the full SEO playbook — audit checks, implementation templates, and gotchas. The prompt is kept clean for copy-paste; reference templates and gotchas follow it in separate sections.
 
 ```
-Perform an SEO and discoverability audit of this project. Detect the tech stack automatically. This is a source code review for SEO best practices — Skyler will handle manual browser tasks (Search Console, Rich Results Test, social card validators).
+Perform an SEO and discoverability audit of this project. Detect the tech stack automatically. This is a source code review for SEO best practices — flag any manual tasks (Search Console, Rich Results Test, social card validators) for the user to handle.
+
+Refer to the "SEO Implementation Templates" and "SEO Gotchas & Lessons Learned" sections that follow this prompt for reference material (HTML templates, JSON-LD examples, commands, and known pitfalls).
 
 ## Part 1: Stack Detection
 
@@ -563,19 +572,113 @@ Identify:
 Check each category. For each finding, cite file path, line numbers, code snippet, and severity.
 
 ### Meta Tags (check every public page)
-- `<title>` exists, is unique per page, under 60 characters, includes primary keyword
-- `<meta name="description">` exists, is unique per page, under 160 characters
-- `<link rel="canonical">` exists and is self-referencing (absolute URL)
-- `<meta name="viewport" content="width=device-width, initial-scale=1.0">` present
-- `<meta name="theme-color">` present
-- `<meta name="author">` present
-- Google/Bing site verification meta tags present (if applicable — flag for Skyler if missing)
+- <title> exists, is unique per page, under 60 characters, includes primary keyword
+- <meta name="description"> exists, is unique per page, under 160 characters
+- <link rel="canonical"> exists and is self-referencing (absolute URL)
+- <meta name="viewport" content="width=device-width, initial-scale=1.0"> present
+- <meta name="theme-color"> present
+- <meta name="author"> present
+- Google/Bing site verification meta tags present (if applicable — flag for user if missing)
 
-#### Meta tag template (reference — adapt per page):
+### Open Graph & Social Cards (check every public page)
+- og:title, og:description, og:image, og:url, og:type, og:site_name all present
+- twitter:card, twitter:title, twitter:description, twitter:image all present
+- og:image is an absolute URL (including protocol), dimensions 1200x630px, with og:image:width and og:image:height meta tags
+- Social card image file exists and is current
+- Cache-busting version parameter on og:image and twitter:image URLs (?v=N, incremented when image changes)
+
+### Structured Data (JSON-LD)
+- Appropriate schema types used for content (WebSite, BlogPosting, Organization, Product, BreadcrumbList, FAQ, etc.)
+- datePublished in full ISO 8601 with timezone (e.g., 2026-01-28T00:00:00-08:00 — NOT just 2026-01-28)
+- image field present on articles (required for Google Article rich results)
+- Breadcrumbs: last item has name but NO item URL (it's the current page)
+- Structured data validates (flag for user to check manually in Google Rich Results Test — reCAPTCHA blocks automation)
+
+### Crawlability & Indexing
+- robots.txt exists at site root, allows indexing of public pages, references sitemap
+- sitemap.xml exists at site root, includes all public indexable pages, excludes noindex pages
+- <lastmod> dates in sitemap are current (not stale placeholder dates)
+- No orphan pages (every page reachable from navigation or internal links)
+- No broken internal links (href to pages that don't exist)
+- No redirect chains (301 -> 301 -> final destination)
+- Pages with <meta name="robots" content="noindex"> excluded from sitemap and skip OG/Twitter/structured data
+
+### Favicons & Web Manifest
+- favicon-16x16.png, favicon-32x32.png, apple-touch-icon.png (180x180) exist
+- icon-192.png, icon-512.png exist (for PWA/manifest)
+- site.webmanifest exists with name, short_name, icons, theme_color, background_color
+- Favicon link tags use absolute paths (work correctly from nested pages)
+
+### Content & Internal Linking
+- Semantic HTML used (<main>, <nav>, <article>, <header>, <footer>)
+- Skip-to-main link present for screen readers
+- Alt text on all images (descriptive, not filename)
+- ARIA labels on interactive elements without visible text
+- Heading hierarchy correct (h1 -> h2 -> h3, no level skips)
+- Descriptive anchor text on internal links (not "click here" or bare URLs)
+- Natural cross-links between related content pages (mentions of topics covered elsewhere linked inline)
+
+### Images
+- WebP format used with PNG/JPG fallback (<picture> element)
+- Explicit width and height attributes on all images (prevents CLS)
+- loading="lazy" on below-the-fold images
+- Images sized to display dimensions (not serving oversized originals)
+
+### Performance (SEO-impacting factors)
+- Lighthouse scores: Performance > 90, SEO > 95, Accessibility > 95
+- Core Web Vitals: LCP < 2.5s, INP < 200ms, CLS < 0.1
+- Render-blocking resources minimized (async/defer on scripts, preloaded critical fonts)
+- No unused JavaScript or CSS increasing page weight
+
+### RSS Feed (if blog exists)
+- rss.xml exists and is valid
+- <link rel="alternate" type="application/rss+xml"> in <head> of blog pages
+
+### Manual Tasks (flag for the user — these require browser login)
+- Google Search Console: property verified, sitemap submitted
+- Bing Webmaster Tools: imported from GSC
+- Rich Results Test: each page with structured data validated (reCAPTCHA blocks automation)
+- Social card previews: tested with Facebook Sharing Debugger, Twitter Card Validator, LinkedIn Post Inspector
+
+## Part 3: Output
+
+**Severity levels:**
+- CRITICAL — Page not indexable, or major SEO signals missing site-wide (no title tags, no sitemap, blocked by robots.txt)
+- HIGH — Significant discoverability gap (missing meta descriptions, broken structured data, no Open Graph tags)
+- MEDIUM — Optimization opportunity with measurable impact (missing image alt text, no lazy loading, stale sitemap dates)
+- LOW — Nice-to-have improvement (missing theme-color, RSS feed, minor structured data enhancements)
+
+Produce two documents:
+
+**SEO Audit Report** (save to `docs/plans/YYYY-MM-DD-seo-audit.md`):
+- Stack, rendering strategy, and hosting summary
+- Findings grouped by severity, then category
+- For each finding: file, line, explanation, recommended fix
+- Manual tasks flagged for user (Search Console, Rich Results Test, social card validators)
+- Statistics table
+- Note clean categories
+
+**SEO Remediation Plan** (save to `docs/plans/YYYY-MM-DD-seo-remediation.md`):
+- Code changes ordered by severity (critical first)
+- Asset creation tasks (favicons, social card, manifest)
+- Content improvements (alt text, internal linking, heading hierarchy)
+- Each task: files to modify, what to change, how to verify
+- Manual tasks listed separately with instructions for the user
+- Include verification commands (Lighthouse CLI, link checkers)
+
+After both documents are saved, ask me whether I want to execute the plan.
+```
+
+### SEO Implementation Templates
+
+Reference templates for implementing SEO fixes. Use these when creating or updating meta tags, structured data, sitemaps, favicons, and images.
+
+#### Meta Tags
+
 ```html
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="google-site-verification" content="TOKEN_FROM_SKYLER">
+<meta name="google-site-verification" content="YOUR_VERIFICATION_TOKEN">
 <title>Page Title - Site Name</title>
 
 <meta name="description" content="Under 160 chars, include primary keyword">
@@ -584,14 +687,8 @@ Check each category. For each finding, cite file path, line numbers, code snippe
 <link rel="canonical" href="https://site.com/this-page">
 ```
 
-### Open Graph & Social Cards (check every public page)
-- `og:title`, `og:description`, `og:image`, `og:url`, `og:type`, `og:site_name` all present
-- `twitter:card`, `twitter:title`, `twitter:description`, `twitter:image` all present
-- `og:image` is an absolute URL (including protocol), dimensions 1200x630px, with `og:image:width` and `og:image:height` meta tags
-- Social card image file exists and is current
-- Cache-busting version parameter on og:image and twitter:image URLs (`?v=N`, incremented when image changes)
+#### Open Graph & Twitter Cards
 
-#### Open Graph template (reference):
 ```html
 <meta property="og:type" content="website">  <!-- "article" for blog posts -->
 <meta property="og:url" content="https://site.com/this-page">
@@ -608,20 +705,15 @@ Check each category. For each finding, cite file path, line numbers, code snippe
 <meta name="twitter:image" content="https://site.com/social-card.png?v=1">
 ```
 
-#### Social card image guidance:
+#### Social Card Image
+
 - Create a `social-card-template.html` that renders a 1200x630 card matching the site's visual identity (same fonts, colors, background effects)
 - Use inline styles, relative font/image paths so it works when opened locally
 - Screenshot with Playwright at 1200x630 viewport, save as `social-card.png` in site root
 - When updating, increment the `?v=N` parameter in ALL HTML files that reference the image
 
-### Structured Data (JSON-LD)
-- Appropriate schema types used for content (`WebSite`, `BlogPosting`, `Organization`, `Product`, `BreadcrumbList`, `FAQ`, etc.)
-- `datePublished` in full ISO 8601 with timezone (e.g., `2026-01-28T00:00:00-08:00` — NOT just `2026-01-28`)
-- `image` field present on articles (required for Google Article rich results)
-- Breadcrumbs: last item has name but NO `item` URL (it's the current page)
-- Structured data validates (flag for Skyler to check manually in Google Rich Results Test — reCAPTCHA blocks automation)
+#### BlogPosting (JSON-LD)
 
-#### BlogPosting template (reference):
 ```json
 {
   "@context": "https://schema.org",
@@ -644,7 +736,8 @@ Check each category. For each finding, cite file path, line numbers, code snippe
 }
 ```
 
-#### BreadcrumbList template (reference):
+#### BreadcrumbList (JSON-LD)
+
 ```json
 {
   "@context": "https://schema.org",
@@ -657,23 +750,21 @@ Check each category. For each finding, cite file path, line numbers, code snippe
 }
 ```
 
-### Crawlability & Indexing
-- `robots.txt` exists at site root, allows indexing of public pages, references sitemap
-- `sitemap.xml` exists at site root, includes all public indexable pages, excludes noindex pages
-- `<lastmod>` dates in sitemap are current (not stale placeholder dates)
-- No orphan pages (every page reachable from navigation or internal links)
-- No broken internal links (href to pages that don't exist)
-- No redirect chains (301 → 301 → final destination)
-- Pages with `<meta name="robots" content="noindex">` excluded from sitemap and skip OG/Twitter/structured data
+**Key rules:**
+- `datePublished` MUST be full ISO 8601 with timezone (NOT just `2026-01-28`)
+- `image` is REQUIRED for Google Article rich results
+- Last breadcrumb item has NO `item` URL (it's the current page)
 
-#### robots.txt template (reference):
+#### robots.txt
+
 ```
 User-agent: *
 Allow: /
 Sitemap: https://site.com/sitemap.xml
 ```
 
-#### sitemap.xml template (reference):
+#### sitemap.xml
+
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
@@ -685,13 +776,12 @@ Sitemap: https://site.com/sitemap.xml
 </urlset>
 ```
 
-### Favicons & Web Manifest
-- `favicon-16x16.png`, `favicon-32x32.png`, `apple-touch-icon.png` (180x180) exist
-- `icon-192.png`, `icon-512.png` exist (for PWA/manifest)
-- `site.webmanifest` exists with `name`, `short_name`, `icons`, `theme_color`, `background_color`
-- Favicon `<link>` tags use absolute paths (work correctly from nested pages)
+Do NOT include pages with `<meta name="robots" content="noindex">`. Update `<lastmod>` when page content changes.
 
-#### Favicon generation commands (reference):
+#### Favicons
+
+Generate from a source PNG:
+
 ```bash
 sips -z 16 16 source.png --out favicon-16x16.png
 sips -z 32 32 source.png --out favicon-32x32.png
@@ -700,7 +790,8 @@ sips -z 192 192 source.png --out icon-192.png
 sips -z 512 512 source.png --out icon-512.png
 ```
 
-#### Favicon link tags (reference):
+Link in every page (use absolute paths so nested pages resolve correctly):
+
 ```html
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -708,7 +799,8 @@ sips -z 512 512 source.png --out icon-512.png
 <link rel="manifest" href="/site.webmanifest">
 ```
 
-#### Web manifest template (reference):
+#### Web Manifest
+
 ```json
 {
   "name": "Site Name",
@@ -725,28 +817,13 @@ sips -z 512 512 source.png --out icon-512.png
 
 Use `"display": "browser"` for content sites (not PWAs).
 
-### Content & Internal Linking
-- Semantic HTML used (`<main>`, `<nav>`, `<article>`, `<header>`, `<footer>`)
-- Skip-to-main link present for screen readers
-- Alt text on all images (descriptive, not filename)
-- ARIA labels on interactive elements without visible text
-- Heading hierarchy correct (h1 → h2 → h3, no level skips)
-- Descriptive anchor text on internal links (not "click here" or bare URLs)
-- Natural cross-links between related content pages (mentions of topics covered elsewhere linked inline)
+#### Image Optimization
 
-### Images
-- WebP format used with PNG/JPG fallback (`<picture>` element)
-- Explicit `width` and `height` attributes on all images (prevents CLS)
-- `loading="lazy"` on below-the-fold images
-- Images sized to display dimensions (not serving oversized originals)
-
-#### Image optimization commands (reference):
 ```bash
 # Convert PNG to WebP (quality 80)
 cwebp -q 80 image.png -o image.webp
 ```
 
-#### Picture element with fallback (reference):
 ```html
 <picture>
   <source srcset="/image.webp" type="image/webp">
@@ -754,66 +831,40 @@ cwebp -q 80 image.png -o image.webp
 </picture>
 ```
 
-### Performance (SEO-impacting factors)
-- Lighthouse scores: Performance > 90, SEO > 95, Accessibility > 95
-- Core Web Vitals: LCP < 2.5s, FID < 100ms, CLS < 0.1
-- Render-blocking resources minimized (`async`/`defer` on scripts, preloaded critical fonts)
-- No unused JavaScript or CSS increasing page weight
+Always set explicit `width` and `height` to prevent CLS. Use `loading="lazy"` for below-the-fold images.
 
-### RSS Feed (if blog exists)
-- `rss.xml` exists and is valid
-- `<link rel="alternate" type="application/rss+xml" title="Blog Title" href="/rss.xml">` in `<head>` of blog pages
+#### Manual Task Instructions
 
-### Manual Tasks (flag for Skyler — these require browser login)
-- **Google Search Console:** Property verified, sitemap submitted. If not set up, tell Skyler: "Go to https://search.google.com/search-console, add your site as a URL prefix property, verify, then submit sitemap.xml under Sitemaps."
-- **Bing Webmaster Tools:** Imported from GSC. Tell Skyler: "Go to https://www.bing.com/webmasters and click 'Import from Google Search Console'."
-- **Rich Results Test:** Each page with structured data validated at https://search.google.com/test/rich-results (reCAPTCHA blocks automation — Skyler must run manually)
-- **Social card previews:** Test with Facebook Sharing Debugger, Twitter Card Validator, LinkedIn Post Inspector. After deploying updated og:image tags, scrape each platform to clear cached images.
+When flagging manual tasks for the user, include these instructions:
 
-## Part 3: Output
+- **Google Search Console:** "Go to https://search.google.com/search-console, add your site as a URL prefix property, verify, then submit sitemap.xml under Sitemaps."
+- **Bing Webmaster Tools:** "Go to https://www.bing.com/webmasters and click 'Import from Google Search Console'."
+- **Rich Results Test:** "Go to https://search.google.com/test/rich-results and test each page with structured data. reCAPTCHA blocks automation — must be done manually."
+- **Social card cache clearing:** After deploying updated og:image tags, scrape each platform to refresh cached previews:
 
-**Severity levels:**
-- CRITICAL — Page not indexable, or major SEO signals missing site-wide (no title tags, no sitemap, blocked by robots.txt)
-- HIGH — Significant discoverability gap (missing meta descriptions, broken structured data, no Open Graph tags)
-- MEDIUM — Optimization opportunity with measurable impact (missing image alt text, no lazy loading, stale sitemap dates)
-- LOW — Nice-to-have improvement (missing theme-color, RSS feed, minor structured data enhancements)
+| Platform | Tool | Action |
+|----------|------|--------|
+| Facebook/LinkedIn | [Sharing Debugger](https://developers.facebook.com/tools/debug/) | Paste URL, click "Scrape Again" |
+| Twitter/X | [Card Validator](https://cards-dev.twitter.com/validator) | Paste URL, click "Preview card" |
+| LinkedIn | [Post Inspector](https://www.linkedin.com/post-inspector/) | Paste URL, click "Inspect" |
 
-Produce two documents:
-
-**SEO Audit Report** (save to `docs/plans/YYYY-MM-DD-seo-audit.md`):
-- Stack, rendering strategy, and hosting summary
-- Findings grouped by severity, then category
-- For each finding: file, line, explanation, recommended fix
-- Manual tasks flagged for Skyler (Search Console, Rich Results Test, social card validators)
-- Statistics table
-- Note clean categories
-
-**SEO Remediation Plan** (save to `docs/plans/YYYY-MM-DD-seo-remediation.md`):
-- Code changes ordered by severity (critical first)
-- Asset creation tasks (favicons, social card, manifest)
-- Content improvements (alt text, internal linking, heading hierarchy)
-- Each task: files to modify, what to change, how to verify
-- Manual tasks listed separately with instructions for Skyler
-- Include verification commands (Lighthouse CLI, link checkers)
-
-After both documents are saved, ask me whether I want to execute the plan.
-```
+Wait for deployment to complete before scraping — scraping before the new meta tags are live re-caches the old image.
 
 ### SEO Gotchas & Lessons Learned
 
-Reference notes from past SEO work — consult these before making changes:
+Consult these before making SEO changes:
 
 - **CSP headers:** Adding external services (analytics, fonts, APIs) requires updating Content Security Policy directives. CSP does NOT do subdomain matching — `example.com` does NOT cover `api.example.com`. Need explicit entries or wildcards.
 - **Deployment pipelines:** If using a build system (Amplify, Netlify, Vercel), new files at the site root must be included in the build config or they won't deploy.
 - **noindex pages:** Skip OG/Twitter tags and structured data on pages with `<meta name="robots" content="noindex">` (404 pages, privacy policies). They won't appear in search results or social shares.
 - **CollectionPage schema:** Google does NOT generate rich results from `CollectionPage`. It passes validation but shows "No items detected" in Rich Results Test. Expected — it still helps Google understand page structure.
 - **Private GitHub repos:** Can't use as backlink sources since search engines can't crawl them.
-- **Rich Results Test:** Blocked by reCAPTCHA — cannot be automated. Skyler must run manually.
+- **Rich Results Test:** Blocked by reCAPTCHA — cannot be automated.
 - **datePublished format:** Must be full ISO 8601 with timezone (`2026-01-28T00:00:00-08:00`), not just a date. Google's validator flags date-only as "invalid datetime."
 - **og:image URLs:** Must be absolute including protocol (`https://site.com/image.png`), not relative paths.
 - **og:image caching:** Social platforms cache images by URL. Replacing the file at the same URL won't update previews — add a `?v=N` query parameter and increment it. Update ALL HTML files that reference the image.
 - **Social card template:** Keep a `social-card-template.html` alongside site source for easy regeneration when branding changes.
-- **Playwright for screenshots:** Viewport screenshot at 1200x630 produces a clean OG image without browser chrome. Use `browser_resize` then `browser_take_screenshot`.
+- **Playwright for screenshots:** Viewport screenshot at 1200x630 produces a clean OG image without browser chrome.
 
 ---
 
@@ -931,4 +982,4 @@ Start with whichever area has the most risk. Usually: Security → Quality → C
 - Re-run quarterly or after major changes to the relevant area.
 - All outputs go to `docs/plans/` with date-stamped filenames so you can track progress over time.
 - The SEO audit incorporates the full SEO playbook (previously `seo-playbook.md`). All templates, gotchas, and manual task instructions are inline.
-- Several audits flag manual tasks that require browser login (Search Console, Rich Results Test, social card validators, App Store submissions). These are marked "manual — Skyler" in remediation plans.
+- Several audits flag manual tasks that require browser login (Search Console, Rich Results Test, social card validators, App Store submissions). These are marked "manual — user action required" in remediation plans.

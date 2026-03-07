@@ -1,6 +1,6 @@
 # Playbooks
 
-Reusable guides for shipping software. Stack-agnostic — works with any project.
+Reusable guides for shipping software. Stack-agnostic, tool-agnostic — works with any project and any AI coding assistant (Claude Code, Cursor, Copilot, Windsurf, etc.). The audit prompts can also be run manually without AI.
 
 ## What's Here
 
@@ -22,13 +22,13 @@ Audits (weeks before)  →  Checklist (day before)  →  Launch  →  Monitoring
 
 ## Quick Start
 
-Point Claude Code at any project and run:
+Point your AI coding assistant at any project and run:
 
 ```
 Read /path/to/playbooks/start-here.md and follow its instructions for this project.
 ```
 
-Or copy the prompt from `start-here.md` directly into Claude Code.
+Or copy the prompt from `start-here.md` directly into your assistant. The individual audit prompts in the playbook also work standalone — copy any one into a conversation with your project open.
 
 ## Re-running
 

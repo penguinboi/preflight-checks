@@ -1,6 +1,6 @@
 # Start Here
 
-Drop this prompt into Claude Code from any project root. It assesses your project and walks you through the production readiness process.
+Drop this prompt into any AI coding assistant (Claude Code, Cursor, Copilot, Windsurf, etc.) from your project root. It assesses your project and walks you through the production readiness process.
 
 ---
 

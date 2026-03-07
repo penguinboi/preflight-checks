@@ -11,8 +11,9 @@ Each item is binary: done or not done. If any **MUST** item is unchecked, you're
 1. Copy this checklist into a new file for your project: `docs/plans/YYYY-MM-DD-pre-launch-checklist.md`
 2. Go through each item and mark it `[x]` or `[N/A]`
 3. If any MUST item is unchecked, fix it or postpone launch
-4. SHOULD items are strong recommendations — document why if you're skipping any
-5. NICE items can wait for a fast-follow
+4. Items marked **MUST\*** are conditional — they're required only if the condition in parentheses applies to your project. Mark `[N/A]` if the condition doesn't apply.
+5. SHOULD items are strong recommendations — document why if you're skipping any
+6. NICE items can wait for a fast-follow
 
 ---
 
@@ -48,12 +49,12 @@ Each item is binary: done or not done. If any **MUST** item is unchecked, you're
 |----------|-------|--------|
 | MUST | Privacy policy exists and is accurate | [ ] |
 | MUST | Privacy policy linked from every page/screen | [ ] |
-| MUST | Cookie consent banner works (blocks scripts until accepted) | [ ] |
-| MUST | Terms of service exist (if users create accounts or purchase) | [ ] |
+| MUST* | Cookie consent banner works — blocks scripts until accepted (if using non-essential cookies) | [ ] |
+| MUST* | Terms of service exist (if users create accounts or purchase) | [ ] |
 | MUST | Copyright notice in footer with correct year and entity | [ ] |
 | MUST | All third-party assets properly licensed | [ ] |
-| MUST | EULA exists (if distributing downloadable software) | [ ] |
-| MUST | COPPA compliance verified (if app could attract under-13 users) | [ ] |
+| MUST* | EULA exists (if distributing downloadable software) | [ ] |
+| MUST* | COPPA compliance verified (if app could attract under-13 users) | [ ] |
 | SHOULD | Accessibility statement exists | [ ] |
 | SHOULD | Legal acceptance tracking records who agreed to what and when | [ ] |
 | SHOULD | AI-generated content disclosed where required | [ ] |
@@ -84,7 +85,7 @@ Each item is binary: done or not done. If any **MUST** item is unchecked, you're
 | MUST | No JavaScript errors in browser console on any page | [ ] |
 | MUST | Images have explicit width and height (no layout shift) | [ ] |
 | SHOULD | Lighthouse Performance score > 90 | [ ] |
-| SHOULD | Core Web Vitals passing (LCP < 2.5s, FID < 100ms, CLS < 0.1) | [ ] |
+| SHOULD | Core Web Vitals passing (LCP < 2.5s, INP < 200ms, CLS < 0.1) | [ ] |
 | SHOULD | Below-the-fold images use lazy loading | [ ] |
 | SHOULD | Images in modern format (WebP) with fallback | [ ] |
 | SHOULD | No render-blocking resources | [ ] |

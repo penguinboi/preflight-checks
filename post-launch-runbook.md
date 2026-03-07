@@ -40,7 +40,7 @@ Establish baselines while traffic is fresh. These numbers are your reference poi
 
 - [ ] **Record Core Web Vitals** from PageSpeed Insights (uses real Chrome user data once available, lab data initially):
   - LCP (Largest Contentful Paint): target < 2.5s
-  - FID (First Input Delay): target < 100ms
+  - INP (Interaction to Next Paint): target < 200ms
   - CLS (Cumulative Layout Shift): target < 0.1
 
 - [ ] **Check page load times** from a location different from your own (use WebPageTest or a VPN)
@@ -159,7 +159,7 @@ Write a brief summary (save to `docs/plans/YYYY-MM-DD-launch-report.md`):
 - **Uptime:** ___% over 72 hours
 - **Error rate:** ___ errors/hour (average)
 - **Lighthouse scores:** Performance ___, A11y ___, SEO ___, Best Practices ___
-- **Core Web Vitals:** LCP ___s, FID ___ms, CLS ___
+- **Core Web Vitals:** LCP ___s, INP ___ms, CLS ___
 - **Daily active users:** ___ (average)
 
 ## Issues Found
@@ -173,6 +173,69 @@ Write a brief summary (save to `docs/plans/YYYY-MM-DD-launch-report.md`):
 - [ ] Item from backlog
 - [ ] Scheduled re-audit (Quality/Security in 3 months)
 ```
+
+---
+
+## Platform-Specific Launch Notes
+
+The runbook above is web-focused. If you're launching on other platforms, add these checks to the relevant time phases.
+
+### Mobile Apps (iOS / Android)
+
+**Hour 0:**
+- [ ] Verify the correct build is live in App Store / Google Play (version number, build number)
+- [ ] Test critical flows on a physical device (not just simulator)
+- [ ] Verify push notifications work end-to-end (if applicable)
+
+**Hours 1-24:**
+- [ ] Monitor crash rate in App Store Connect / Google Play Console (target: < 1%)
+- [ ] If using staged rollout (Google Play), start at 5-10% and monitor crash rate before increasing
+- [ ] Check App Store reviews for early feedback — new releases surface quickly
+- [ ] Monitor app size impact — did the update push past a cellular download threshold (200MB iOS)?
+- [ ] Verify deep links and universal links work from external sources
+
+**Hours 24-72:**
+- [ ] Increase staged rollout percentage if crash rate is stable (10% → 25% → 50% → 100%)
+- [ ] Check for new crash clusters in Crashlytics / App Store Connect crash reports
+- [ ] Monitor battery and memory usage reports (Settings → Battery on iOS, Android Vitals)
+- [ ] If the app was previously rejected, verify the fix actually addressed the reviewer's concern
+
+### APIs & Backend Services
+
+**Hour 0:**
+- [ ] Verify health check endpoint returns 200
+- [ ] Confirm canary deployment percentage (start at 5-10% of traffic)
+- [ ] Check database connection pool health
+
+**Hours 1-24:**
+- [ ] Monitor latency percentiles (p50, p95, p99) — not just averages. p99 spikes hide in averages.
+- [ ] Watch error budgets if using SLO-based monitoring
+- [ ] Check queue depths and worker backlogs (if using async job processing)
+- [ ] Monitor database query performance — new queries may be unindexed at production scale
+- [ ] Increase canary percentage as confidence grows (10% → 25% → 50% → 100%)
+
+**Hours 24-72:**
+- [ ] Check for connection leaks (DB connections, HTTP clients, file handles growing over time)
+- [ ] Verify log volume is reasonable (not flooding log aggregation with debug-level output)
+- [ ] Monitor disk usage on servers (logs, temp files, uploads)
+
+### Games (itch.io, Steam, App Stores)
+
+**Hour 0:**
+- [ ] Play through the first 5-10 minutes as a new player on the live build
+- [ ] Verify save/load works (if applicable)
+- [ ] Check that audio plays correctly (volume levels, music loops, SFX triggers)
+
+**Hours 1-24:**
+- [ ] Monitor community channels (itch.io comments, Steam discussions, Discord) for bug reports
+- [ ] Check concurrent player count against server capacity (if multiplayer)
+- [ ] Verify analytics events fire correctly (session start, level completion, purchase)
+- [ ] Watch for platform-specific issues (WebGL compatibility on itch.io, controller support on Steam)
+
+**Hours 24-72:**
+- [ ] Check player retention — are players returning after first session?
+- [ ] Monitor ratings and reviews — respond to bug reports quickly
+- [ ] Verify leaderboards, achievements, and cloud saves work at scale (if applicable)
 
 ---
 

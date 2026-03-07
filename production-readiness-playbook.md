@@ -981,5 +981,5 @@ Start with whichever area has the most risk. Usually: Security → Quality → C
 - Run from the project root directory.
 - Re-run quarterly or after major changes to the relevant area.
 - All outputs go to `docs/plans/` with date-stamped filenames so you can track progress over time.
-- The SEO audit incorporates the full SEO playbook (previously `seo-playbook.md`). All templates, gotchas, and manual task instructions are inline.
+- The SEO audit includes implementation templates, gotchas, and manual task instructions alongside the audit prompt.
 - Several audits flag manual tasks that require browser login (Search Console, Rich Results Test, social card validators, App Store submissions). These are marked "manual — user action required" in remediation plans.

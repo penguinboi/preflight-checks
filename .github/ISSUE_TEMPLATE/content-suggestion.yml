@@ -1,0 +1,49 @@
+name: "Content Suggestion"
+description: "Suggest a new check, improve an existing one, or flag a gap"
+labels: ["content"]
+body:
+  - type: dropdown
+    id: which-audit
+    attributes:
+      label: Which audit
+      options:
+        - Quality
+        - Security
+        - Compliance & Legal
+        - Accessibility
+        - Performance
+        - SEO & Discoverability
+        - Operational Readiness
+        - Pre-Launch Checklist
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: what-to-add-or-change
+    attributes:
+      label: What to add or change
+      description: Describe the new check, improvement, or gap.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: suggested-severity
+    attributes:
+      label: Suggested severity
+      options:
+        - CRITICAL
+        - HIGH
+        - MEDIUM
+        - LOW
+        - Not sure
+    validations:
+      required: true
+
+  - type: textarea
+    id: references
+    attributes:
+      label: References
+      description: Links to standards, articles, or examples that support this suggestion.
+    validations:
+      required: false

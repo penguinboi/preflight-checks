@@ -1,0 +1,41 @@
+name: "Bug Report"
+description: "Report incorrect advice, broken links, or formatting issues"
+labels: ["bug"]
+body:
+  - type: dropdown
+    id: document
+    attributes:
+      label: Document affected
+      options:
+        - Production Readiness Playbook
+        - Pre-Launch Checklist
+        - Post-Launch Runbook
+        - Rollback Decision Tree
+        - Start Here
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: whats-wrong
+    attributes:
+      label: What's wrong
+      description: Describe the incorrect advice, broken link, or formatting issue.
+    validations:
+      required: true
+
+  - type: textarea
+    id: what-it-should-say
+    attributes:
+      label: What it should say or link to
+      description: If you know the correct information, share it here.
+    validations:
+      required: false
+
+  - type: textarea
+    id: how-found
+    attributes:
+      label: How you found this
+      description: "e.g., ran the audit on my project and got bad advice"
+    validations:
+      required: false

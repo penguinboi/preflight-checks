@@ -1,0 +1,27 @@
+name: "Feature Request"
+description: "Suggest a new audit, checklist section, or major addition"
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: whats-missing
+    attributes:
+      label: What's missing
+      description: Describe the feature or addition you'd like to see.
+    validations:
+      required: true
+
+  - type: textarea
+    id: why-it-matters
+    attributes:
+      label: Why it matters
+      description: Who does this help and what's the risk without it?
+    validations:
+      required: true
+
+  - type: textarea
+    id: references
+    attributes:
+      label: References
+      description: Links to standards, articles, or examples that support this request.
+    validations:
+      required: false

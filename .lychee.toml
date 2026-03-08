@@ -1,0 +1,10 @@
+# ABOUTME: Configuration for lychee link checker.
+# ABOUTME: Excludes example/placeholder URLs and localhost references from broken-link checks.
+
+# Exclude example and placeholder URLs that appear in guides
+exclude = [
+  "localhost",
+  "127\\.0\\.0\\.1",
+  "yoursite\\.com",
+  "site\\.com",
+]

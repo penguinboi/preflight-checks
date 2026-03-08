@@ -1,0 +1,21 @@
+# Checks all markdown files for broken links on push/PR to main.
+# ABOUTME: GitHub Actions workflow that runs lychee link checker against markdown files.
+name: Check Links
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  links:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check links
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: '--verbose --no-progress **/*.md'
+          fail: true

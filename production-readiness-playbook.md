@@ -1,6 +1,6 @@
 # Production Readiness Playbook
 
-Seven audits that take a project from "it works on my machine" to production-grade. Run them in order — each builds on the previous. Give each prompt to your AI coding assistant (Claude Code, Cursor, Copilot, Windsurf, etc.) in your project root — or use them as manual review checklists.
+Eight audits that take a project from "it works on my machine" to production-grade. Run them in order — each builds on the previous. Give each prompt to your AI coding assistant (Claude Code, Cursor, Copilot, Windsurf, etc.) in your project root — or use them as manual review checklists.
 
 ---
 
@@ -15,6 +15,7 @@ Seven audits that take a project from "it works on my machine" to production-gra
 | 5 | [Performance](#5-performance-audit) | Is it fast enough? | Before launch. After adding features. |
 | 6 | [SEO & Discoverability](#6-seo--discoverability-audit) | Will people find it? | Before launch. After content/structure changes. (Web only) |
 | 7 | [Operational Readiness](#7-operational-readiness-audit) | What happens when it breaks in prod? | Before launch. |
+| 8 | [Open-Source Readiness](#8-open-source-readiness-audit) | Is the project ready for public contribution? | Before public release. After major structural changes. (Open-source only) |
 
 Start with **Quality** — the others build on having tests, linting, and CI in place.
 
@@ -960,19 +961,158 @@ After both documents are saved, ask me whether I want to execute the plan.
 
 ---
 
+## 8. Open-Source Readiness Audit
+
+Covers: community files, licensing, versioning, contributor experience, discoverability, and project health. **Skip for private or internal-only projects.**
+
+```
+Audit this project's readiness for open-source contribution and adoption. Detect the tech stack automatically from config files, package manifests, and project structure.
+
+## Part 1: Project Detection
+
+Identify:
+- Is the project public on a forge (GitHub, GitLab, Codeberg, etc.)?
+- What license is used? Is it OSI-approved?
+- What's the primary language/framework?
+- Is this a library, tool, application, or documentation project?
+- Is it published to a registry (npm, PyPI, crates.io, pub.dev, etc.)?
+
+## Part 2: Community Infrastructure
+
+### Repository Essentials
+- Does the README exist with clear purpose, install/usage instructions, contributing link, and license?
+- Does a LICENSE file exist in the repository root?
+- Does CONTRIBUTING.md exist with style guide and contribution process?
+- Does CODE_OF_CONDUCT.md exist?
+- Does SECURITY.md exist with vulnerability reporting process?
+
+### Issue Management
+- Are issue templates configured (bug report, feature request)?
+- Is a PR template configured?
+- Are labels configured for issue triage?
+
+### Discussion Channels
+- Is GitHub Discussions enabled, or is there a linked forum/Discord/Slack?
+
+## Part 3: Licensing & Legal
+
+### License Compatibility
+- Does the LICENSE file exist and contain an OSI-approved license?
+- Is the license compatible with all dependencies?
+- Are attribution requirements met (NOTICES file if needed)?
+
+### Copyright
+- Is copyright consistent in the LICENSE file?
+
+### CLA/DCO
+- For larger projects: is there a contributor license agreement or Developer Certificate of Origin?
+
+## Part 4: Versioning & Releases
+
+### Version Strategy
+- Is semantic versioning or calendar versioning used and documented?
+
+### Changelog
+- Does CHANGELOG.md exist and follow a standard format (Keep a Changelog, Conventional Commits, etc.)?
+
+### Release Process
+- Are there tagged releases with release notes?
+- Are release artifacts published if applicable?
+
+### Upgrade Guidance
+- Are breaking changes documented?
+- Are migration guides provided for major versions?
+
+## Part 5: Contributor Experience
+
+### First Contribution Path
+- Can someone clone, build, test, and contribute in under 15 minutes?
+
+### Development Setup
+- Are dependencies, build steps, and test commands documented?
+
+### Good First Issues
+- Are issues labeled for newcomers (good first issue, help wanted)?
+
+### Review Process
+- Are PR review expectations documented (turnaround time, who reviews)?
+
+## Part 6: Discoverability
+
+### Repository Metadata
+- Are topics/tags set on the repository?
+- Is the description filled in?
+- Is the website URL linked?
+
+### README Quality
+- Is there a clear value proposition?
+- Are install/quickstart instructions present?
+- Are badges present (build status, version, license)?
+- Are screenshots or demos included if applicable?
+
+### Registry Presence
+- Is the project published to the appropriate registry with description and keywords (if applicable)?
+
+## Part 7: Project Health Signals
+
+### Maintenance Indicators
+- Are there recent commits?
+- Are issues being responded to?
+- Are PRs being reviewed?
+- Are dependencies kept updated?
+
+### Documentation
+- Is documentation proportional to project complexity (README sufficient for small projects, API docs for libraries, architecture docs for large projects)?
+
+### CI/CD
+- Are automated tests run on PRs?
+- Is build verification in place?
+- Is release automation configured?
+
+### Security
+- Is Dependabot or Renovate enabled?
+- Is a security policy published?
+
+## Part 8: Output
+
+**Severity levels:**
+- CRITICAL — Project cannot be reasonably used by others (no license, no README, broken install)
+- HIGH — Significant barrier to contribution or adoption
+- MEDIUM — Missing best practice, limits growth
+- LOW — Polish, would improve perception
+
+Produce two documents:
+
+**Open-Source Readiness Report** (save to `docs/plans/YYYY-MM-DD-open-source-audit.md`):
+- Current open-source readiness summary
+- Findings grouped by severity, then category
+- Statistics table
+
+**Open-Source Readiness Remediation Plan** (save to `docs/plans/YYYY-MM-DD-open-source-remediation.md`):
+- Tasks ordered by severity
+- Each task: what to add/change, where, and how to verify
+- Distinguish between "repository changes" and "process/policy decisions"
+- Include verification steps
+
+After both documents are saved, ask me whether I want to execute the plan.
+```
+
+---
+
 ## Running Order for a New Project
 
 1. **Quality** — Get tests, linting, and CI in place first. Everything else depends on this.
-2. **Security** — Fix exploitable issues before exposing the app to users.
-3. **Compliance & Legal** — Ensure legal docs and consent mechanisms exist before launch.
-4. **Accessibility** — Legal and ethical requirement. Harder to retrofit later.
-5. **Performance** — Optimize once the app is correct, secure, and compliant.
-6. **SEO & Discoverability** — Depends on performance (Core Web Vitals) and content structure being solid.
-7. **Operational Readiness** — Final go-live gate: monitoring, alerting, and recovery in place.
+2. **Open-Source Readiness** — Set up community infrastructure early so contributors can participate from the start. (Open-source only)
+3. **Security** — Fix exploitable issues before exposing the app to users.
+4. **Compliance & Legal** — Ensure legal docs and consent mechanisms exist before launch.
+5. **Accessibility** — Legal and ethical requirement. Harder to retrofit later.
+6. **Performance** — Optimize once the app is correct, secure, and compliant.
+7. **SEO & Discoverability** — Depends on performance (Core Web Vitals) and content structure being solid.
+8. **Operational Readiness** — Final go-live gate: monitoring, alerting, and recovery in place.
 
 ## Running Order for an Existing Project
 
-Start with whichever area has the most risk. Usually: Security → Quality → Compliance → Ops → Performance → Accessibility → SEO.
+Start with whichever area has the most risk. Usually: Security → Quality → Compliance → Ops → Performance → Accessibility → SEO. Run Open-Source Readiness before the first public release.
 
 ## Notes
 

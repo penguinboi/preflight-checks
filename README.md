@@ -4,7 +4,7 @@
 
 **Ship with confidence.** Systematic production readiness checks for any software project — web apps, mobile apps, APIs, games, CLIs.
 
-> You built the thing. But is it ready to ship? These playbooks walk you through 7 audits, a go/no-go checklist, 72 hours of post-launch monitoring, and a rollback decision tree. Stack-agnostic, tool-agnostic, and designed to work with AI coding assistants or on their own.
+> You built the thing. But is it ready to ship? These playbooks walk you through 8 audits, a go/no-go checklist, 72 hours of post-launch monitoring, and a rollback decision tree. Stack-agnostic, tool-agnostic, and designed to work with AI coding assistants or on their own.
 
 ---
 
@@ -12,7 +12,7 @@
 
 | Document | Purpose | When to Use |
 |----------|---------|-------------|
-| [Production Readiness Playbook](production-readiness-playbook.md) | 7 systematic audits covering quality, security, compliance, accessibility, performance, SEO, and ops | Weeks before launch |
+| [Production Readiness Playbook](production-readiness-playbook.md) | 8 systematic audits covering quality, security, compliance, accessibility, performance, SEO, ops, and open-source readiness | Weeks before launch |
 | [Pre-Launch Checklist](pre-launch-checklist.md) | Binary go/no-go gate with MUST / SHOULD / NICE tiers | Day before launch |
 | [Post-Launch Runbook](post-launch-runbook.md) | Hour-by-hour monitoring guide with platform-specific sections | First 72 hours after launch |
 | [Rollback Decision Tree](rollback-decision-tree.md) | Severity triage — rollback, hotfix, or accept and monitor | When something breaks |
@@ -34,7 +34,7 @@ graph LR
 
 ---
 
-## The 7 Audits
+## The 8 Audits
 
 The [Production Readiness Playbook](production-readiness-playbook.md) covers:
 
@@ -45,6 +45,7 @@ The [Production Readiness Playbook](production-readiness-playbook.md) covers:
 5. **Performance** — Core Web Vitals, Lighthouse, bundle size, caching
 6. **SEO & Discoverability** — Meta tags, structured data, sitemaps, social cards
 7. **Operational Readiness** — Deployment, rollback, monitoring, alerting, backups
+8. **Open-Source Readiness** — Community files, licensing, versioning, contributor experience, discoverability
 
 Each audit is a self-contained prompt you can copy into any AI coding assistant. Skip audits that don't apply to your project type — the playbook tells you which ones.
 
@@ -89,7 +90,7 @@ You can also run individual audits standalone — copy any audit prompt from the
 |---------|-------------|
 | Quarterly | Quality + Security audits |
 | After major changes | The relevant audit (UI changes → Accessibility, new data collection → Compliance, etc.) |
-| New launch | Full cycle — all 7 audits, checklist, monitoring |
+| New launch | Full cycle — all 8 audits, checklist, monitoring |
 
 ---
 

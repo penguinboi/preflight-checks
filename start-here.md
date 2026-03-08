@@ -29,17 +29,18 @@ Present your assessment as a summary table and confirm with me before proceeding
 
 ## Step 2: Recommend an Audit Order
 
-Based on the assessment, recommend which of the 7 audits to run and in what order. Use these rules:
+Based on the assessment, recommend which of the 8 audits to run and in what order. Use these rules:
 
 **For a new/pre-launch project:**
-Quality → Security → Compliance → Accessibility → Performance → SEO → Ops
+Quality → Open-Source Readiness → Security → Compliance → Accessibility → Performance → SEO → Ops
 
 **For an existing/launched project:**
-Security → Quality → Compliance → Ops → Performance → Accessibility → SEO
+Security → Quality → Compliance → Ops → Performance → Accessibility → SEO → Open-Source Readiness (before first public release)
 
 **Skip these when they don't apply:**
 - Accessibility: skip for backend-only, CLI, or API projects
 - SEO: skip for backend-only, CLI, mobile-only, or non-web projects
+- Open-Source Readiness: skip for private or internal-only projects
 - Compliance (EULA section): skip for web-only apps
 - Compliance (Payment section): skip for free apps
 - Compliance (Platform section): skip if not distributed through app stores or marketplaces

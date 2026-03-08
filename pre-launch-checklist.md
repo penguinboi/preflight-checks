@@ -126,6 +126,25 @@ Each item is binary: done or not done. If any **MUST** item is unchecked, you're
 | NICE | Incident response plan documented (who gets paged) | [ ] |
 | NICE | Feature flags available for risky rollouts | [ ] |
 
+## 8. Open-Source Readiness
+
+*Skip this section for private or internal-only projects.*
+
+| Priority | Check | Status |
+|----------|-------|--------|
+| MUST | LICENSE file exists and is OSI-approved | [ ] |
+| MUST | README has clear purpose, install/usage instructions, and license | [ ] |
+| MUST | No secrets, credentials, or internal URLs in repository | [ ] |
+| SHOULD | CONTRIBUTING.md exists with style guide and process | [ ] |
+| SHOULD | CODE_OF_CONDUCT.md exists | [ ] |
+| SHOULD | SECURITY.md with vulnerability reporting process | [ ] |
+| SHOULD | Issue templates configured | [ ] |
+| SHOULD | CHANGELOG.md exists | [ ] |
+| SHOULD | Tagged release with release notes | [ ] |
+| NICE | GitHub Discussions or community channel linked | [ ] |
+| NICE | Good first issues labeled for newcomers | [ ] |
+| NICE | Dependabot or Renovate enabled | [ ] |
+
 ---
 
 ## Final Decision
@@ -141,6 +160,7 @@ Count your results:
 | Performance | | | |
 | SEO | | | |
 | Ops | | | |
+| Open-Source | | | |
 
 **GO** — All MUSTs checked. Most SHOULDs checked. Remaining items documented as fast-follow.
 

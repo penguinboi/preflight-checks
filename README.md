@@ -1,6 +1,7 @@
 # Preflight Checks
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![GitHub release](https://img.shields.io/github/v/release/penguinboi/preflight-checks)](https://github.com/penguinboi/preflight-checks/releases)
 
 **Ship with confidence.** Systematic production readiness checks for any software project — web apps, mobile apps, APIs, games, CLIs.
 

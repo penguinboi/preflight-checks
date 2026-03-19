@@ -9,8 +9,8 @@
 **Tech Stack:** Markdown, GitHub Actions (YAML), GitHub CLI (`gh`)
 
 **Repos:**
-- preflight-checks: `/Users/saley/Code/preflight-checks` → `github.com/penguinboi/preflight-checks`
-- claude-scrub: `/Users/saley/Code/claude-scrub` → `github.com/penguinboi/claude-scrub`
+- preflight-checks: `/Users/saley/Code/penguinboi/preflight-checks` → `github.com/penguinboi/preflight-checks`
+- claude-scrub: `/Users/saley/Code/penguinboi/claude-scrub` → `github.com/penguinboi/claude-scrub`
 
 ---
 
@@ -419,7 +419,7 @@ git push origin main
 
 ### Task 9: Adapt and apply community files to claude-scrub
 
-**Files (all in `/Users/saley/Code/claude-scrub/`):**
+**Files (all in `/Users/saley/Code/penguinboi/claude-scrub/`):**
 - Create: `CODE_OF_CONDUCT.md` — Same as preflight-checks (copy)
 - Create: `SECURITY.md` — **Different**: full responsible disclosure for a security tool, enable GitHub private vulnerability reporting
 - Create: `CONTRIBUTING.md` — **Different**: how to add detection patterns, run tests, code style, Python conventions
@@ -448,7 +448,7 @@ CONTRIBUTING.md differences for claude-scrub:
 **Step 2: Commit**
 
 ```bash
-cd /Users/saley/Code/claude-scrub
+cd /Users/saley/Code/penguinboi/claude-scrub
 git add CODE_OF_CONDUCT.md SECURITY.md CONTRIBUTING.md .github/
 git commit -m "Add community files, issue templates, and PR template"
 ```
@@ -457,7 +457,7 @@ git commit -m "Add community files, issue templates, and PR template"
 
 ### Task 10: Add CHANGELOG and tag v1.0.0 for claude-scrub
 
-**Files (in `/Users/saley/Code/claude-scrub/`):**
+**Files (in `/Users/saley/Code/penguinboi/claude-scrub/`):**
 - Create: `CHANGELOG.md`
 
 **Step 1: Create CHANGELOG.md**

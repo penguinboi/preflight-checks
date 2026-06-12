@@ -33,12 +33,13 @@ Each item is binary: done or not done. If any **MUST** item is unchecked, you're
 
 | Priority | Check | Status |
 |----------|-------|--------|
-| MUST | No secrets in source code or git history | [ ] |
+| MUST | No secrets in source code or git history (any secret ever committed has been revoked and rotated) | [ ] |
 | MUST | No CRITICAL or HIGH security findings unresolved | [ ] |
 | MUST | All dependencies up to date (no known vulnerabilities) | [ ] |
 | MUST | Authentication and authorization working correctly | [ ] |
 | MUST | HTTPS enforced (no mixed content) | [ ] |
 | MUST | Security headers configured (CSP, HSTS, X-Frame-Options, X-Content-Type-Options) | [ ] |
+| MUST* | LLM features hardened — spend caps on provider keys, per-user rate limits, model output treated as untrusted (if the app calls an LLM API) | [ ] |
 | SHOULD | CORS restricted to expected origins | [ ] |
 | SHOULD | Rate limiting on auth and public API endpoints | [ ] |
 | SHOULD | Error responses don't leak internal details | [ ] |

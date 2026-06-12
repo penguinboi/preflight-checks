@@ -165,7 +165,7 @@ Check each category. For each finding, cite file path, line numbers, code snippe
 
 ### Secrets & Configuration
 - API keys, tokens, or passwords in source code
-- Secrets in git history (even if removed from current files)
+- Secrets in git history (even if removed from current files — any secret ever pushed must be revoked and rotated; scrubbing the repo does not un-leak it)
 - .env files committed to the repo
 - Debug/development modes enabled in production config
 - Verbose error messages that leak stack traces, file paths, or internal state to users
@@ -179,12 +179,12 @@ Check each category. For each finding, cite file path, line numbers, code snippe
 
 ### Transport & Headers
 - Missing HTTPS enforcement
-- Missing or permissive CORS configuration (Access-Control-Allow-Origin: *)
+- Overly permissive CORS configuration (Access-Control-Allow-Origin: * — especially combined with Access-Control-Allow-Credentials, or reflecting arbitrary Origin headers)
 - Missing security headers (Content-Security-Policy, X-Frame-Options, Strict-Transport-Security, X-Content-Type-Options)
 - Sensitive data in URL query parameters (tokens, passwords visible in logs and browser history)
 
 ### Cryptography
-- Weak hashing algorithms for passwords (MD5, SHA1 without salt — should be bcrypt/scrypt/argon2)
+- Fast general-purpose hashes used for passwords (MD5, SHA-1, SHA-256 — even salted; use argon2id, scrypt, bcrypt, or PBKDF2)
 - Homegrown authentication or encryption schemes
 - Insecure random number generation for security-sensitive values (Math.random instead of crypto.getRandomValues)
 - Hardcoded IVs, salts, or encryption keys
@@ -194,6 +194,13 @@ Check each category. For each finding, cite file path, line numbers, code snippe
 - API responses returning more data than the client needs (full user objects including password hashes)
 - Sensitive data in client-side state visible in browser devtools
 - Missing data sanitization on error responses
+
+### AI / LLM Features (skip if the project doesn't call an LLM)
+- Prompt injection: user-controlled input or fetched content (web pages, documents, uploaded files) concatenated into prompts without isolation
+- LLM output treated as trusted: rendered as HTML without sanitization, executed directly, or passed to tools/shell commands without constraints
+- Secrets or PII embedded in system prompts (prompts leak — treat their contents as public)
+- Provider API keys without spend caps or quotas (cost runaway from abuse or retry loops)
+- Missing per-user rate limits on LLM-backed endpoints (cost amplification abuse)
 
 ## Part 3: Output
 
@@ -214,6 +221,7 @@ Produce two documents:
 
 **Security Remediation Plan** (save to `docs/plans/YYYY-MM-DD-security-remediation.md`):
 - Tasks ordered by severity (critical first)
+- For any secret found in source or git history: revoke and rotate the credential first — removing it from the repo is not remediation
 - Each task: files to modify, what to change, how to verify the fix
 - Mark findings that need manual verification as "verify first"
 - Include commands to test fixes

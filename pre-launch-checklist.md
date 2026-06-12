@@ -33,12 +33,13 @@ Each item is binary: done or not done. If any **MUST** item is unchecked, you're
 
 | Priority | Check | Status |
 |----------|-------|--------|
-| MUST | No secrets in source code or git history | [ ] |
+| MUST | No secrets in source code or git history (any secret ever committed has been revoked and rotated) | [ ] |
 | MUST | No CRITICAL or HIGH security findings unresolved | [ ] |
 | MUST | All dependencies up to date (no known vulnerabilities) | [ ] |
 | MUST | Authentication and authorization working correctly | [ ] |
 | MUST | HTTPS enforced (no mixed content) | [ ] |
 | MUST | Security headers configured (CSP, HSTS, X-Frame-Options, X-Content-Type-Options) | [ ] |
+| MUST* | LLM features hardened — spend caps on provider keys, per-user rate limits, model output treated as untrusted (if the app calls an LLM API) | [ ] |
 | SHOULD | CORS restricted to expected origins | [ ] |
 | SHOULD | Rate limiting on auth and public API endpoints | [ ] |
 | SHOULD | Error responses don't leak internal details | [ ] |
@@ -59,7 +60,7 @@ Each item is binary: done or not done. If any **MUST** item is unchecked, you're
 | SHOULD | Legal acceptance tracking records who agreed to what and when | [ ] |
 | SHOULD | AI-generated content disclosed where required | [ ] |
 | SHOULD | Platform-specific requirements met (App Store, Google Play, etc.) | [ ] |
-| NICE | Open source licenses documented in NOTICES/SBOM | [ ] |
+| NICE | Open-source licenses documented in NOTICES/SBOM | [ ] |
 
 ## 4. Accessibility
 
@@ -114,13 +115,17 @@ Each item is binary: done or not done. If any **MUST** item is unchecked, you're
 | Priority | Check | Status |
 |----------|-------|--------|
 | MUST | Deployment process documented and tested | [ ] |
-| MUST | Rollback procedure documented and tested (< 5 min) | [ ] |
+| MUST | Rollback procedure documented and tested (< 5 min) — for mobile/desktop binaries where rollback is impossible, a kill-switch or staged-rollout halt procedure instead | [ ] |
 | MUST | Environment variables and secrets configured for production | [ ] |
 | MUST | Production database backed up (and backup tested) | [ ] |
+| MUST* | Transactional email verified — arrives in a real external inbox (not spam), sender out of sandbox mode, SPF/DKIM/DMARC configured (if the app sends email) | [ ] |
 | SHOULD | Error tracking service integrated (Sentry, etc.) | [ ] |
 | SHOULD | Uptime monitoring configured (external ping) | [ ] |
 | SHOULD | Health check endpoint exists | [ ] |
 | SHOULD | Alerting configured for error rate spikes | [ ] |
+| SHOULD | Billing alarm configured on the hosting account (and on any usage-billed API keys) | [ ] |
+| SHOULD | TLS certificate auto-renewal verified; domain set to auto-renew with a valid payment method | [ ] |
+| SHOULD | Expected launch traffic estimated; likely bottleneck load-tested at 5-10x that estimate | [ ] |
 | SHOULD | Structured logging with log aggregation | [ ] |
 | NICE | Runbook for common ops tasks (restart, scale, clear cache) | [ ] |
 | NICE | Incident response plan documented (who gets paged) | [ ] |

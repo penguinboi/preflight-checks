@@ -22,7 +22,8 @@ SECURITY.md                        # Vulnerability reporting policy
 CODE_OF_CONDUCT.md                 # Contributor Covenant
 CHANGELOG.md                       # Keep a Changelog format
 .lychee.toml                       # Link checker config (excludes placeholder URLs)
-.github/workflows/links.yml        # CI: lychee broken-link checker on push/PR to main
+.github/workflows/links.yml        # CI: lychee broken-link checker on push/PR to main + weekly
+.github/dependabot.yml             # Keeps pinned GitHub Actions versions current
 .github/ISSUE_TEMPLATE/            # Bug report, feature request, content suggestion templates
 ```
 
@@ -37,7 +38,7 @@ Each audit in `production-readiness-playbook.md` is a self-contained prompt desi
 5. **Performance** — Core Web Vitals, Lighthouse, bundle size, caching
 6. **SEO & Discoverability** — Meta tags, structured data, sitemaps, social cards (web only)
 7. **Operational Readiness** — Deployment, rollback, monitoring, alerting, backups
-8. **Open-Source Readiness** — Community files, licensing, versioning, contributor experience (public repos only)
+8. **Open-Source Readiness** — Community files, licensing, versioning, contributor experience, discoverability (public repos only)
 
 ## Severity Levels
 
@@ -57,7 +58,7 @@ Used consistently across all audits and checklists:
 
 ## CI
 
-One GitHub Actions workflow: `links.yml` runs lychee link checker against all markdown files on push/PR to main. Configuration in `.lychee.toml` excludes placeholder URLs (localhost, yoursite.com, etc.).
+One GitHub Actions workflow: `links.yml` runs lychee link checker against all markdown files on push/PR to main and on a weekly schedule. Actions are pinned to commit SHAs, kept current by Dependabot (`.github/dependabot.yml`). Configuration in `.lychee.toml` excludes placeholder URLs (localhost, yoursite.com, etc.).
 
 ## Git Configuration
 

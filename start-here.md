@@ -6,7 +6,7 @@ Drop this prompt into any AI coding assistant (Claude Code, Cursor, Copilot, Win
 
 ## The Prompt
 
-Replace `<PLAYBOOKS_PATH>` with the absolute path to your local clone of this repo, then copy everything below this line and paste it into Claude Code:
+Replace all occurrences of `<PLAYBOOKS_PATH>` (it appears 4 times below) with the absolute path to your local clone of this repo, then copy everything below this line and paste it into your AI coding assistant. If you are an AI assistant reading this file in place, treat `<PLAYBOOKS_PATH>` as the directory containing this file:
 
 ---
 

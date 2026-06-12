@@ -2,6 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![GitHub release](https://img.shields.io/github/v/release/penguinboi/preflight-checks)](https://github.com/penguinboi/preflight-checks/releases)
+[![Check Links](https://github.com/penguinboi/preflight-checks/actions/workflows/links.yml/badge.svg)](https://github.com/penguinboi/preflight-checks/actions/workflows/links.yml)
 
 **Ship with confidence.** Systematic production readiness checks for any software project — web apps, mobile apps, APIs, games, CLIs.
 
@@ -27,7 +28,7 @@
 graph LR
     A[Audits] --> B[Checklist]
     B --> C[Launch]
-    C --> D[Monitor 72h]
+    C --> D[Post-Launch Runbook<br/>72h monitoring]
     C --> E{Problem?}
     E -- yes --> F[Rollback Tree]
     F --> C
@@ -67,8 +68,10 @@ Works with Claude Code, Cursor, Copilot, Windsurf, or any tool that can read fil
 **3. Paste this prompt**
 
 ```
-Read /path/to/preflight-checks/start-here.md and follow its instructions for this project.
+Read /path/to/preflight-checks/start-here.md and follow its instructions for this project. The playbooks are in /path/to/preflight-checks/.
 ```
+
+Replace `/path/to/preflight-checks/` with the actual path where you cloned the repo.
 
 The assistant will assess your project, recommend which audits to run, execute them in order, and walk you through the pre-launch checklist.
 
@@ -92,6 +95,12 @@ You can also run individual audits standalone — copy any audit prompt from the
 | Quarterly | Quality + Security audits |
 | After major changes | The relevant audit (UI changes → Accessibility, new data collection → Compliance, etc.) |
 | New launch | Full cycle — all 8 audits, checklist, monitoring |
+
+---
+
+## Contributing
+
+Contributions welcome — see [CONTRIBUTING.md](CONTRIBUTING.md) for how to suggest checks, report issues, and submit changes.
 
 ---
 

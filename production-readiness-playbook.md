@@ -82,7 +82,7 @@ Generate a one-sentence-each bulleted list of code smells that linters miss, tai
 
 Add stack-specific categories as needed (e.g., "Widget lifecycle" for Flutter, "Memory management" for Swift, "Unsafe blocks" for Rust).
 
-Once you've identified the stack, search the web for "[framework] code smells that linters miss" and "[framework] common anti-patterns" to find additional stack-specific smells not listed above. Incorporate any relevant findings as extra categories before scanning.
+Once you've identified the stack, search the web for "[framework] code smells that linters miss" and "[framework] common anti-patterns" to find additional stack-specific smells not listed above. Incorporate any relevant findings as extra categories before scanning. If web search is not available, skip this step and rely on the categories above plus stack-specific additions you can infer from the detected framework.
 
 Keep it to smells that static analysis genuinely cannot catch — things requiring understanding of intent, data flow, or runtime behavior.
 
@@ -94,6 +94,12 @@ Then find ALL examples of every smell across the codebase. For each finding:
 4. Briefly explain why it's a problem
 
 ## Part 4: Output
+
+**Severity levels:**
+- CRITICAL — Causes bugs in production (data corruption, crashes, broken core flows)
+- HIGH — Fragile, breaks under pressure or edge cases
+- MEDIUM — Maintenance burden, tech debt
+- LOW — Cosmetic, minor improvements
 
 Produce two documents:
 
@@ -165,7 +171,7 @@ Check each category. For each finding, cite file path, line numbers, code snippe
 
 ### Secrets & Configuration
 - API keys, tokens, or passwords in source code
-- Secrets in git history (even if removed from current files)
+- Secrets in git history (even if removed from current files — any secret ever pushed must be revoked and rotated; scrubbing the repo does not un-leak it)
 - .env files committed to the repo
 - Debug/development modes enabled in production config
 - Verbose error messages that leak stack traces, file paths, or internal state to users
@@ -179,12 +185,12 @@ Check each category. For each finding, cite file path, line numbers, code snippe
 
 ### Transport & Headers
 - Missing HTTPS enforcement
-- Missing or permissive CORS configuration (Access-Control-Allow-Origin: *)
+- Overly permissive CORS configuration (Access-Control-Allow-Origin: * — especially combined with Access-Control-Allow-Credentials, or reflecting arbitrary Origin headers)
 - Missing security headers (Content-Security-Policy, X-Frame-Options, Strict-Transport-Security, X-Content-Type-Options)
 - Sensitive data in URL query parameters (tokens, passwords visible in logs and browser history)
 
 ### Cryptography
-- Weak hashing algorithms for passwords (MD5, SHA1 without salt — should be bcrypt/scrypt/argon2)
+- Fast general-purpose hashes used for passwords (MD5, SHA-1, SHA-256 — even salted; use argon2id, scrypt, bcrypt, or PBKDF2)
 - Homegrown authentication or encryption schemes
 - Insecure random number generation for security-sensitive values (Math.random instead of crypto.getRandomValues)
 - Hardcoded IVs, salts, or encryption keys
@@ -194,6 +200,13 @@ Check each category. For each finding, cite file path, line numbers, code snippe
 - API responses returning more data than the client needs (full user objects including password hashes)
 - Sensitive data in client-side state visible in browser devtools
 - Missing data sanitization on error responses
+
+### AI / LLM Features (skip if the project doesn't call an LLM)
+- Prompt injection: user-controlled input or fetched content (web pages, documents, uploaded files) concatenated into prompts without isolation
+- LLM output treated as trusted: rendered as HTML without sanitization, executed directly, or passed to tools/shell commands without constraints
+- Secrets or PII embedded in system prompts (prompts leak — treat their contents as public)
+- Provider API keys without spend caps or quotas (cost runaway from abuse or retry loops)
+- Missing per-user rate limits on LLM-backed endpoints (cost amplification abuse)
 
 ## Part 3: Output
 
@@ -214,6 +227,7 @@ Produce two documents:
 
 **Security Remediation Plan** (save to `docs/plans/YYYY-MM-DD-security-remediation.md`):
 - Tasks ordered by severity (critical first)
+- For any secret found in source or git history: revoke and rotate the credential first — removing it from the repo is not remediation
 - Each task: files to modify, what to change, how to verify the fix
 - Mark findings that need manual verification as "verify first"
 - Include commands to test fixes
@@ -250,7 +264,7 @@ Check each category. For each finding, cite file path, line numbers, code snippe
 - GDPR compliance (if serving EU users):
   - Lawful basis identified for each data processing activity
   - Data subject rights implemented: access, rectification, erasure, portability, objection
-  - DPO contact info if required (>250 employees or core activity is large-scale monitoring/sensitive data)
+  - DPO appointed and contact info published if required (public authority, or core activities involve regular and systematic large-scale monitoring, or large-scale processing of special-category/criminal-offence data — there is no employee-count threshold)
   - 72-hour breach notification procedure documented
   - Data processing agreements with all third-party processors
 - CCPA/CPRA compliance (if serving California users):
@@ -259,7 +273,7 @@ Check each category. For each finding, cite file path, line numbers, code snippe
   - Symmetric opt-in/opt-out UI (declining must be as easy as accepting)
   - Global Privacy Control (GPC) signal detection and response
   - Visible opt-out confirmation (2026 CPRA requirement)
-- US state privacy laws: check applicability of Delaware, Iowa, Minnesota, Nebraska, New Hampshire, New Jersey, Maryland, Tennessee, Indiana, Kentucky, Rhode Island privacy acts
+- US state comprehensive privacy laws: ~20 in force as of 2026 — check current applicability against a maintained tracker (e.g., the IAPP US State Privacy Legislation Tracker). Don't skip the earlier-effective laws (Virginia, Colorado, Connecticut, Utah, Texas, Oregon, Montana, Florida — Texas has no revenue threshold) alongside the 2025-2026 wave (Delaware, Iowa, Minnesota, Nebraska, New Hampshire, New Jersey, Maryland, Tennessee, Indiana, Kentucky, Rhode Island)
 - International privacy laws (check applicability based on where users are located):
   - LGPD (Brazil): consent requirements, DPO appointment, data subject rights similar to GDPR
   - PIPEDA (Canada): meaningful consent, breach reporting, right of access
@@ -275,7 +289,7 @@ Check each category. For each finding, cite file path, line numbers, code snippe
 - Cookie consent banner exists with symmetric accept/reject buttons (equal size, color, and visual weight)
 - Consent stored with version tracking (re-prompt when policy changes)
 - Non-essential cookies and scripts blocked until consent is granted (no pre-checked boxes)
-- Do Not Track (DNT) and Global Privacy Control (GPC) signal detection and response
+- Global Privacy Control (GPC) signal detection and response (legally required for California traffic under CCPA; the abandoned Do Not Track signal carries no response obligation — CalOPPA only requires disclosing how you handle it)
 - Cookie policy page listing all cookies: name, purpose, duration, category (essential/analytics/marketing), provider
 - Consent withdrawal mechanism accessible at any time (not just on first visit)
 
@@ -291,7 +305,7 @@ Check each category. For each finding, cite file path, line numbers, code snippe
 - License scope and restrictions defined (no reverse-engineering, no redistribution)
 - Apple App Store: 10 required EULA sections (scope, maintenance, warranty, product claims, IP, legal compliance, contact info, third-party terms, third-party beneficiary, no App Store liability)
 - Google Play: compliance provisions for Play Developer Program Policies
-- Open source component acknowledgments and license compatibility verified (no GPL in proprietary, LGPL handled correctly)
+- Open-source component acknowledgments and license compatibility verified (no GPL in proprietary, LGPL handled correctly)
 
 ### Accessibility Statement
 - Accessibility statement page exists and is linked from footer
@@ -323,7 +337,7 @@ Check each category. For each finding, cite file path, line numbers, code snippe
 ### Copyright & Attribution
 - Copyright notice in footer with current year and correct entity name
 - All third-party assets properly licensed (fonts, images, icons, sound effects, music)
-- Open source licenses compatible and attributed (LICENSE file, NOTICES file, or SBOM)
+- Open-source licenses compatible and attributed (LICENSE file, NOTICES file, or SBOM)
 - No assets used under expired or personal-use-only licenses
 
 ### Age Restrictions
@@ -377,7 +391,7 @@ After both documents are saved, ask me whether I want to execute the plan.
 Covers: semantic HTML, keyboard navigation, screen readers, color contrast, ARIA, focus management. Skip this for backend-only or CLI projects.
 
 ```
-Perform an accessibility (a11y) audit of this project's user interface. Detect the tech stack automatically.
+Perform an accessibility (a11y) audit of this project's user interface. Detect the tech stack automatically. If the project has no user interface (backend-only service, CLI tool, or library), state that this audit does not apply and stop.
 
 ## Part 1: Automated Checks
 
@@ -558,7 +572,7 @@ This section incorporates the full SEO playbook — audit checks, implementation
 ```
 Perform an SEO and discoverability audit of this project. Detect the tech stack automatically. This is a source code review for SEO best practices — flag any manual tasks (Search Console, Rich Results Test, social card validators) for the user to handle.
 
-Refer to the "SEO Implementation Templates" and "SEO Gotchas & Lessons Learned" sections that follow this prompt for reference material (HTML templates, JSON-LD examples, commands, and known pitfalls).
+If you have access to the full playbook file, refer to the "SEO Implementation Templates" and "SEO Gotchas & Lessons Learned" sections that follow this prompt for reference material (HTML templates, JSON-LD examples, commands, and known pitfalls). Otherwise, apply standard SEO templates for flagged items.
 
 ## Part 1: Stack Detection
 
@@ -590,7 +604,7 @@ Check each category. For each finding, cite file path, line numbers, code snippe
 
 ### Structured Data (JSON-LD)
 - Appropriate schema types used for content (WebSite, BlogPosting, Organization, Product, BreadcrumbList, FAQ, etc.)
-- datePublished in full ISO 8601 with timezone (e.g., 2026-01-28T00:00:00-08:00 — NOT just 2026-01-28)
+- datePublished in ISO 8601 — prefer full datetime with timezone (e.g., 2026-01-28T00:00:00-08:00); date-only values are valid but Google defaults their timezone to Googlebot's
 - image field present on articles (required for Google Article rich results)
 - Breadcrumbs: last item has name but NO item URL (it's the current page)
 - Structured data validates (flag for user to check manually in Google Rich Results Test — reCAPTCHA blocks automation)
@@ -602,7 +616,7 @@ Check each category. For each finding, cite file path, line numbers, code snippe
 - No orphan pages (every page reachable from navigation or internal links)
 - No broken internal links (href to pages that don't exist)
 - No redirect chains (301 -> 301 -> final destination)
-- Pages with <meta name="robots" content="noindex"> excluded from sitemap and skip OG/Twitter/structured data
+- Pages with <meta name="robots" content="noindex"> excluded from sitemap and skipping structured data (keep OG/Twitter tags on noindex pages people may still share, like privacy policies)
 
 ### Favicons & Web Manifest
 - favicon-16x16.png, favicon-32x32.png, apple-touch-icon.png (180x180) exist
@@ -626,8 +640,8 @@ Check each category. For each finding, cite file path, line numbers, code snippe
 - Images sized to display dimensions (not serving oversized originals)
 
 ### Performance (SEO-impacting factors)
-- Lighthouse scores: Performance > 90, SEO > 95, Accessibility > 95
-- Core Web Vitals: LCP < 2.5s, INP < 200ms, CLS < 0.1
+- Lighthouse scores: Performance > 90, SEO > 95, Accessibility > 95 (flag for user — requires running Lighthouse CLI or PageSpeed Insights against a live or locally served site)
+- Core Web Vitals: LCP < 2.5s, INP < 200ms, CLS < 0.1 (flag for user — requires a live site)
 - Render-blocking resources minimized (async/defer on scripts, preloaded critical fonts)
 - No unused JavaScript or CSS increasing page weight
 
@@ -635,11 +649,11 @@ Check each category. For each finding, cite file path, line numbers, code snippe
 - rss.xml exists and is valid
 - <link rel="alternate" type="application/rss+xml"> in <head> of blog pages
 
-### Manual Tasks (flag for the user — these require browser login)
+### Manual Tasks (flag for the user — these require browser login or a live site)
 - Google Search Console: property verified, sitemap submitted
 - Bing Webmaster Tools: imported from GSC
 - Rich Results Test: each page with structured data validated (reCAPTCHA blocks automation)
-- Social card previews: tested with Facebook Sharing Debugger, Twitter Card Validator, LinkedIn Post Inspector
+- Social card previews: tested with Facebook Sharing Debugger and LinkedIn Post Inspector; for X, paste the URL into a draft post — the preview renders in the composer (the old Card Validator is defunct)
 
 ## Part 3: Output
 
@@ -752,7 +766,7 @@ Reference templates for implementing SEO fixes. Use these when creating or updat
 ```
 
 **Key rules:**
-- `datePublished` MUST be full ISO 8601 with timezone (NOT just `2026-01-28`)
+- `datePublished` in ISO 8601 — prefer full datetime with timezone (`2026-01-28T00:00:00-08:00`) over date-only; Google falls back to Googlebot's timezone otherwise
 - `image` is REQUIRED for Google Article rich results
 - Last breadcrumb item has NO `item` URL (it's the current page)
 
@@ -846,7 +860,7 @@ When flagging manual tasks for the user, include these instructions:
 | Platform | Tool | Action |
 |----------|------|--------|
 | Facebook/LinkedIn | [Sharing Debugger](https://developers.facebook.com/tools/debug/) | Paste URL, click "Scrape Again" |
-| Twitter/X | [Card Validator](https://cards-dev.twitter.com/validator) | Paste URL, click "Preview card" |
+| Twitter/X | Post composer on x.com | Paste URL into a draft post — the preview renders there (the old Card Validator is defunct) |
 | LinkedIn | [Post Inspector](https://www.linkedin.com/post-inspector/) | Paste URL, click "Inspect" |
 
 Wait for deployment to complete before scraping — scraping before the new meta tags are live re-caches the old image.
@@ -857,11 +871,11 @@ Consult these before making SEO changes:
 
 - **CSP headers:** Adding external services (analytics, fonts, APIs) requires updating Content Security Policy directives. CSP does NOT do subdomain matching — `example.com` does NOT cover `api.example.com`. Need explicit entries or wildcards.
 - **Deployment pipelines:** If using a build system (Amplify, Netlify, Vercel), new files at the site root must be included in the build config or they won't deploy.
-- **noindex pages:** Skip OG/Twitter tags and structured data on pages with `<meta name="robots" content="noindex">` (404 pages, privacy policies). They won't appear in search results or social shares.
+- **noindex pages:** Skip structured data on pages with `<meta name="robots" content="noindex">` and exclude them from the sitemap — they won't appear in search results. But noindex is a search-engine directive only: social link-preview scrapers ignore it, so keep OG/Twitter tags on noindex pages people still share (privacy policies) and only skip them on pages never shared (404 pages).
 - **CollectionPage schema:** Google does NOT generate rich results from `CollectionPage`. It passes validation but shows "No items detected" in Rich Results Test. Expected — it still helps Google understand page structure.
 - **Private GitHub repos:** Can't use as backlink sources since search engines can't crawl them.
 - **Rich Results Test:** Blocked by reCAPTCHA — cannot be automated.
-- **datePublished format:** Must be full ISO 8601 with timezone (`2026-01-28T00:00:00-08:00`), not just a date. Google's validator flags date-only as "invalid datetime."
+- **datePublished format:** Prefer full ISO 8601 datetime with timezone (`2026-01-28T00:00:00-08:00`). Date-only values are valid, but Google defaults the timezone to Googlebot's. Non-ISO formats ("January 28, 2026") fail validation.
 - **og:image URLs:** Must be absolute including protocol (`https://site.com/image.png`), not relative paths.
 - **og:image caching:** Social platforms cache images by URL. Replacing the file at the same URL won't update previews — add a `?v=N` query parameter and increment it. Update ALL HTML files that reference the image.
 - **Social card template:** Keep a `social-card-template.html` alongside site source for easy regeneration when branding changes.
@@ -896,6 +910,8 @@ Audit this project's operational readiness — everything needed to run reliably
 - Is there uptime monitoring (external ping)?
 - Are there alerts for error rate spikes, latency degradation, or resource exhaustion?
 - Are there dashboards for key metrics (request rate, error rate, latency, CPU/memory)?
+- Are billing/spend alerts configured (AWS Budgets, GCP budget alerts, provider spend caps), with hard caps where the platform supports them (API key quotas, function concurrency limits)?
+- Is TLS certificate expiry monitored (most uptime checkers include this) and auto-renewal verified to actually work? Is the domain set to auto-renew with a valid payment method?
 
 ## Part 2: Resilience
 
@@ -915,6 +931,10 @@ Audit this project's operational readiness — everything needed to run reliably
 - Are public endpoints rate-limited (login, signup, password reset, API)?
 - Is there protection against automated abuse (CAPTCHA, bot detection)?
 - Are file uploads validated (size limits, type checking, malware scanning)?
+
+### Capacity
+- What traffic is expected at launch, and has the likely bottleneck (database, API, auth) been load-tested at several times that estimate (k6, hey, ab)?
+- Does the hosting plan autoscale, or is there a manual scaling plan for traffic spikes (the launch announcement itself is often the biggest spike the system has seen)?
 
 ## Part 3: Deployment Safety
 
@@ -954,6 +974,7 @@ Produce two documents:
 - Tasks ordered by severity
 - Each task: what to implement, which tools/services to use, how to verify
 - Distinguish between "code changes" and "infrastructure/service setup"
+- Flag any checks that cannot be verified from source code (uptime monitoring, backup restoration, alert firing, rollback timing) as "verify manually — requires production access"
 - Include verification steps
 
 After both documents are saved, ask me whether I want to execute the plan.

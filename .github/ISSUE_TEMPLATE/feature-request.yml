@@ -1,3 +1,5 @@
+# ABOUTME: Issue form for suggesting a new audit, checklist section, or major addition.
+# ABOUTME: Collects the gap description and why it belongs in the playbooks.
 name: "Feature Request"
 description: "Suggest a new audit, checklist section, or major addition"
 labels: ["enhancement"]

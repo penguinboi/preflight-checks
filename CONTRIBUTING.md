@@ -20,13 +20,13 @@ Thanks for your interest in improving Preflight Checks! This is a documentation 
 
 The playbook follows consistent patterns. Please match them:
 
-**Audit structure** — Each audit has three parts:
-1. **Stack Detection** — Identify the project's tech stack from config files and imports
+**Audit structure** — Audits vary in part count, but all follow the same arc:
+1. **Detection** — Identify the project's stack or project type from config files and imports
 2. **Review categories** — Check each category, citing file paths, line numbers, and severity
-3. **Output** — Findings grouped by severity, then prioritized fix list
+3. **Output** — Severity level definitions, then two documents: an audit report and a remediation plan
 
 **Severity levels** — Used consistently across all audits:
-- **CRITICAL** — Causes real harm now (bugs in prod, exploitable vulnerabilities, legal exposure)
+- **CRITICAL** — Causes real harm (bugs in prod, exploitable vulnerabilities, legal exposure)
 - **HIGH** — Fragile, breaks under pressure or edge cases
 - **MEDIUM** — Maintenance burden, tech debt
 - **LOW** — Cosmetic, minor improvements
@@ -47,6 +47,8 @@ The playbook follows consistent patterns. Please match them:
 2. Make your changes, keeping PRs focused on one thing
 3. Open a pull request with a clear description of what changed and why
 4. Link the relevant issue if one exists
+
+PRs are typically reviewed within 1-2 weeks. This is a solo-maintained project — if you haven't heard back in two weeks, a polite ping on the PR is welcome.
 
 ## Code of Conduct
 

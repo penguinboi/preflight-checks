@@ -1,0 +1,8 @@
+# ABOUTME: Keeps GitHub Actions versions current via automated PRs.
+# ABOUTME: Required because workflow actions are pinned to commit SHAs.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly

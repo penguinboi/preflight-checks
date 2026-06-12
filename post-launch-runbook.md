@@ -17,6 +17,7 @@ Do these within the first 15 minutes:
 - [ ] **Check error tracking** — If Sentry/Bugsnag is set up, verify it's receiving events (trigger a test error if needed).
 - [ ] **Check analytics** — Verify Google Analytics or equivalent is recording pageviews in the real-time dashboard.
 - [ ] **Test cookie consent** — Accept and reject cookies. Verify non-essential scripts are blocked until consent is given. Check that the banner doesn't reappear after accepting.
+- [ ] **Test transactional email** — If the app sends email (signup verification, password reset, receipts), trigger each one to an external mailbox on a major provider (Gmail/Outlook) — not your own dev-verified address. Confirm it lands in the inbox, not spam, and that the sending service is out of sandbox/test mode.
 
 ### If something is broken
 
@@ -57,7 +58,7 @@ Establish baselines while traffic is fresh. These numbers are your reference poi
 - [ ] **Request indexing** for the homepage and top pages in Search Console (URL Inspection → Request Indexing)
 - [ ] **Test social cards** — Share the URL on Facebook, Twitter/X, and LinkedIn. Verify the card image, title, and description render correctly.
   - Facebook: [Sharing Debugger](https://developers.facebook.com/tools/debug/) — click "Scrape Again"
-  - Twitter/X: [Card Validator](https://cards-dev.twitter.com/validator)
+  - Twitter/X: paste the URL into a draft post on x.com — the preview renders in the composer (the old Card Validator is defunct)
   - LinkedIn: [Post Inspector](https://www.linkedin.com/post-inspector/)
 - [ ] **Check robots.txt** — Verify it's accessible at `https://yoursite.com/robots.txt` and isn't accidentally blocking anything
 
@@ -75,6 +76,7 @@ Check these periodically throughout the first day. Set a timer for every 2-4 hou
 - [ ] **User reports** — Check support channels, social media mentions, app store reviews (if mobile). Real users are your best QA team.
 - [ ] **Bot traffic** — Check server logs for crawlers. Google, Bing, and others should be finding your site. If they're not, check robots.txt and sitemap.
 - [ ] **Resource usage** — CPU, memory, disk, and bandwidth on your hosting platform. Look for unexpected growth patterns.
+- [ ] **Billing dashboard** — Check spend on your hosting platform and any usage-billed APIs. A traffic spike, bot scraping, or a retry loop can run up cost fast.
 
 ### Compliance Checks
 
@@ -116,9 +118,11 @@ The adrenaline has worn off. Now look at trends.
 
 - [ ] **Performance over 24 hours** — Has performance been stable or degrading? Check if there are time-of-day patterns (slow during peak hours = capacity issue).
 
-- [ ] **Search Console status** — Check Coverage report. Are pages being indexed? Any errors? "Discovered — currently not indexed" is normal for the first few days.
+- [ ] **Search Console status** — Check the Page indexing report (Indexing → Pages). Are pages being indexed? Any errors? "Discovered — currently not indexed" is normal for the first few days.
 
 - [ ] **Uptime report** — If you have uptime monitoring, check the 24-hour report. Any downtime periods you didn't notice?
+
+- [ ] **Spend over 24 hours** — Compare hosting and API spend against expectations. If you didn't set a billing alarm pre-launch, set one now.
 
 ### Fix or Backlog
 
@@ -244,6 +248,6 @@ The runbook above is web-focused. If you're launching on other platforms, add th
 You're in steady-state operations now. Transition to regular monitoring:
 
 - **Weekly:** Glance at error rates, performance trends, and Search Console
-- **Monthly:** Review analytics trends, check for new dependency vulnerabilities
+- **Monthly:** Review analytics trends, check for new dependency vulnerabilities, confirm TLS certificate auto-renewal is working and domain expiry is covered
 - **Quarterly:** Re-run Quality and Security audits from the [Production Readiness Playbook](production-readiness-playbook.md)
 - **After major changes:** Re-run the relevant audit, then this runbook again for the deployment

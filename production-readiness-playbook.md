@@ -250,7 +250,7 @@ Check each category. For each finding, cite file path, line numbers, code snippe
 - GDPR compliance (if serving EU users):
   - Lawful basis identified for each data processing activity
   - Data subject rights implemented: access, rectification, erasure, portability, objection
-  - DPO contact info if required (>250 employees or core activity is large-scale monitoring/sensitive data)
+  - DPO appointed and contact info published if required (public authority, or core activities involve regular and systematic large-scale monitoring, or large-scale processing of special-category/criminal-offence data — there is no employee-count threshold)
   - 72-hour breach notification procedure documented
   - Data processing agreements with all third-party processors
 - CCPA/CPRA compliance (if serving California users):
@@ -259,7 +259,7 @@ Check each category. For each finding, cite file path, line numbers, code snippe
   - Symmetric opt-in/opt-out UI (declining must be as easy as accepting)
   - Global Privacy Control (GPC) signal detection and response
   - Visible opt-out confirmation (2026 CPRA requirement)
-- US state privacy laws: check applicability of Delaware, Iowa, Minnesota, Nebraska, New Hampshire, New Jersey, Maryland, Tennessee, Indiana, Kentucky, Rhode Island privacy acts
+- US state comprehensive privacy laws: ~20 in force as of 2026 — check current applicability against a maintained tracker (e.g., the IAPP US State Privacy Legislation Tracker). Don't skip the earlier-effective laws (Virginia, Colorado, Connecticut, Utah, Texas, Oregon, Montana, Florida — Texas has no revenue threshold) alongside the 2025-2026 wave (Delaware, Iowa, Minnesota, Nebraska, New Hampshire, New Jersey, Maryland, Tennessee, Indiana, Kentucky, Rhode Island)
 - International privacy laws (check applicability based on where users are located):
   - LGPD (Brazil): consent requirements, DPO appointment, data subject rights similar to GDPR
   - PIPEDA (Canada): meaningful consent, breach reporting, right of access
@@ -275,7 +275,7 @@ Check each category. For each finding, cite file path, line numbers, code snippe
 - Cookie consent banner exists with symmetric accept/reject buttons (equal size, color, and visual weight)
 - Consent stored with version tracking (re-prompt when policy changes)
 - Non-essential cookies and scripts blocked until consent is granted (no pre-checked boxes)
-- Do Not Track (DNT) and Global Privacy Control (GPC) signal detection and response
+- Global Privacy Control (GPC) signal detection and response (legally required for California traffic under CCPA; the abandoned Do Not Track signal carries no response obligation — CalOPPA only requires disclosing how you handle it)
 - Cookie policy page listing all cookies: name, purpose, duration, category (essential/analytics/marketing), provider
 - Consent withdrawal mechanism accessible at any time (not just on first visit)
 

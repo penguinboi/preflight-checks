@@ -11,10 +11,10 @@ Speed matters. Don't spend 30 minutes debating — follow the tree, make a call,
 Answer these questions about the issue:
 
 ### Is data being corrupted or lost?
-**YES** → **ROLLBACK IMMEDIATELY.** Don't investigate further. Every minute is more data damage. Go to [How to Roll Back](#how-to-roll-back).
+**YES** → **ROLLBACK IMMEDIATELY.** Don't investigate further. Every minute is more data damage. Go to [How to Roll Back](#how-to-roll-back). One exception to "don't investigate": if the bad deploy included a database migration, code rollback alone won't stop the damage — answer the migration question in the rollback pre-flight first.
 
 ### Is there a security vulnerability being actively exploited?
-**YES** → **ROLLBACK IMMEDIATELY.** If rollback isn't possible, take the affected service offline. Go to [How to Roll Back](#how-to-roll-back).
+**YES** → **ROLLBACK IMMEDIATELY.** If rollback isn't possible, take the affected service offline. If user personal data may have been accessed, breach notification obligations (e.g., GDPR's 72-hour regulator notification) may apply — trigger the breach procedure from your compliance audit now, not after the retro. Go to [How to Roll Back](#how-to-roll-back).
 
 ### Is a critical user flow completely broken? (login, signup, checkout, core functionality)
 **YES** → Go to Step 2.
@@ -109,6 +109,10 @@ Something is wrong but the app is still usable for most users.
 ### Pre-flight (1 minute)
 1. Announce to the team: "Rolling back [service] to [previous version]. Reason: [one sentence]."
 2. If you have a status page, post an incident.
+3. **Did this deploy include a database migration?**
+   - **No** → proceed to Execute.
+   - **Yes, and it's forward-compatible** (old code runs against the new schema) → roll back code only. Leave the schema in place.
+   - **Yes, and it's NOT forward-compatible** → rolling back code alone will break against the new schema. Choose between a **tested** down migration and a point-in-time restore from backup — and know that down migrations on populated tables can destroy data written since the deploy. If you're unsure, restore from backup.
 
 ### Execute (target: under 5 minutes)
 Choose the method that matches your deployment:
@@ -117,8 +121,10 @@ Choose the method that matches your deployment:
 ```bash
 # Redeploy previous build from Amplify console
 # Hosting → Deployments → select previous successful build → Redeploy
-# Or via CLI:
-aws amplify start-job --app-id $APP_ID --branch-name main --job-type RELEASE
+# Or via CLI: find the previous successful job, then redeploy exactly that build
+aws amplify list-jobs --app-id $APP_ID --branch-name main --max-results 5
+aws amplify start-job --app-id $APP_ID --branch-name main --job-type RETRY --job-id [previous-successful-job-id]
+# Do NOT use --job-type RELEASE here — it rebuilds the latest commit, which is the broken one
 ```
 
 **Container-based (App Runner, ECS, Kubernetes):**
@@ -146,11 +152,20 @@ git checkout [previous-commit-hash]
 # Run build and deploy commands
 ```
 
+**Mobile apps (App Store / Google Play):**
+```bash
+# There is no binary rollback on the app stores — mitigate server-side and ship a fix
+# Google Play: halt the staged rollout so no new users receive the bad version
+# iOS: submit a hotfix with an expedited review request; remove the app from sale if severe
+# Both: flip server-side kill switches / feature flags to disable the broken feature in released binaries
+```
+
 ### Post-rollback (5 minutes)
 1. Verify the rollback succeeded — test the critical flow that was broken.
 2. Update the team: "Rollback complete. [Service] is back on [previous version]."
 3. Update the status page if applicable.
-4. **Do NOT investigate the root cause now.** The fire is out. Schedule investigation for after you've confirmed stability.
+4. If user personal data may have been accessed during the incident, trigger your breach notification procedure now — clocks like GDPR's 72 hours start at detection, not at the retro.
+5. **Do NOT investigate the root cause now.** The fire is out. Schedule investigation for after you've confirmed stability.
 
 ---
 
@@ -214,6 +229,7 @@ Regardless of which path you took, do a brief retrospective within 48 hours:
 
 **Duration:** [Time detected] → [Time resolved]
 **Impact:** [Who was affected and how]
+**User data exposed:** [yes / no / unknown — if yes or unknown, check breach notification obligations]
 **Resolution:** [Rollback / Hotfix / Accepted]
 
 ## Timeline

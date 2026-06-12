@@ -114,7 +114,7 @@ Each item is binary: done or not done. If any **MUST** item is unchecked, you're
 | Priority | Check | Status |
 |----------|-------|--------|
 | MUST | Deployment process documented and tested | [ ] |
-| MUST | Rollback procedure documented and tested (< 5 min) | [ ] |
+| MUST | Rollback procedure documented and tested (< 5 min) — for mobile/desktop binaries where rollback is impossible, a kill-switch or staged-rollout halt procedure instead | [ ] |
 | MUST | Environment variables and secrets configured for production | [ ] |
 | MUST | Production database backed up (and backup tested) | [ ] |
 | SHOULD | Error tracking service integrated (Sentry, etc.) | [ ] |

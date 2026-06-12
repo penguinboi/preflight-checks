@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
-## [Unreleased]
+## [1.1.0] - 2026-06-11
 
 ### Fixed
 - Rollback tree: Amplify CLI rollback now uses `RETRY` with a previous job ID — `RELEASE` rebuilds the latest (broken) commit

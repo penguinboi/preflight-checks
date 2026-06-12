@@ -590,7 +590,7 @@ Check each category. For each finding, cite file path, line numbers, code snippe
 
 ### Structured Data (JSON-LD)
 - Appropriate schema types used for content (WebSite, BlogPosting, Organization, Product, BreadcrumbList, FAQ, etc.)
-- datePublished in full ISO 8601 with timezone (e.g., 2026-01-28T00:00:00-08:00 — NOT just 2026-01-28)
+- datePublished in ISO 8601 — prefer full datetime with timezone (e.g., 2026-01-28T00:00:00-08:00); date-only values are valid but Google defaults their timezone to Googlebot's
 - image field present on articles (required for Google Article rich results)
 - Breadcrumbs: last item has name but NO item URL (it's the current page)
 - Structured data validates (flag for user to check manually in Google Rich Results Test — reCAPTCHA blocks automation)
@@ -602,7 +602,7 @@ Check each category. For each finding, cite file path, line numbers, code snippe
 - No orphan pages (every page reachable from navigation or internal links)
 - No broken internal links (href to pages that don't exist)
 - No redirect chains (301 -> 301 -> final destination)
-- Pages with <meta name="robots" content="noindex"> excluded from sitemap and skip OG/Twitter/structured data
+- Pages with <meta name="robots" content="noindex"> excluded from sitemap and skipping structured data (keep OG/Twitter tags on noindex pages people may still share, like privacy policies)
 
 ### Favicons & Web Manifest
 - favicon-16x16.png, favicon-32x32.png, apple-touch-icon.png (180x180) exist
@@ -639,7 +639,7 @@ Check each category. For each finding, cite file path, line numbers, code snippe
 - Google Search Console: property verified, sitemap submitted
 - Bing Webmaster Tools: imported from GSC
 - Rich Results Test: each page with structured data validated (reCAPTCHA blocks automation)
-- Social card previews: tested with Facebook Sharing Debugger, Twitter Card Validator, LinkedIn Post Inspector
+- Social card previews: tested with Facebook Sharing Debugger and LinkedIn Post Inspector; for X, paste the URL into a draft post — the preview renders in the composer (the old Card Validator is defunct)
 
 ## Part 3: Output
 
@@ -752,7 +752,7 @@ Reference templates for implementing SEO fixes. Use these when creating or updat
 ```
 
 **Key rules:**
-- `datePublished` MUST be full ISO 8601 with timezone (NOT just `2026-01-28`)
+- `datePublished` in ISO 8601 — prefer full datetime with timezone (`2026-01-28T00:00:00-08:00`) over date-only; Google falls back to Googlebot's timezone otherwise
 - `image` is REQUIRED for Google Article rich results
 - Last breadcrumb item has NO `item` URL (it's the current page)
 
@@ -846,7 +846,7 @@ When flagging manual tasks for the user, include these instructions:
 | Platform | Tool | Action |
 |----------|------|--------|
 | Facebook/LinkedIn | [Sharing Debugger](https://developers.facebook.com/tools/debug/) | Paste URL, click "Scrape Again" |
-| Twitter/X | [Card Validator](https://cards-dev.twitter.com/validator) | Paste URL, click "Preview card" |
+| Twitter/X | Post composer on x.com | Paste URL into a draft post — the preview renders there (the old Card Validator is defunct) |
 | LinkedIn | [Post Inspector](https://www.linkedin.com/post-inspector/) | Paste URL, click "Inspect" |
 
 Wait for deployment to complete before scraping — scraping before the new meta tags are live re-caches the old image.
@@ -857,11 +857,11 @@ Consult these before making SEO changes:
 
 - **CSP headers:** Adding external services (analytics, fonts, APIs) requires updating Content Security Policy directives. CSP does NOT do subdomain matching — `example.com` does NOT cover `api.example.com`. Need explicit entries or wildcards.
 - **Deployment pipelines:** If using a build system (Amplify, Netlify, Vercel), new files at the site root must be included in the build config or they won't deploy.
-- **noindex pages:** Skip OG/Twitter tags and structured data on pages with `<meta name="robots" content="noindex">` (404 pages, privacy policies). They won't appear in search results or social shares.
+- **noindex pages:** Skip structured data on pages with `<meta name="robots" content="noindex">` and exclude them from the sitemap — they won't appear in search results. But noindex is a search-engine directive only: social link-preview scrapers ignore it, so keep OG/Twitter tags on noindex pages people still share (privacy policies) and only skip them on pages never shared (404 pages).
 - **CollectionPage schema:** Google does NOT generate rich results from `CollectionPage`. It passes validation but shows "No items detected" in Rich Results Test. Expected — it still helps Google understand page structure.
 - **Private GitHub repos:** Can't use as backlink sources since search engines can't crawl them.
 - **Rich Results Test:** Blocked by reCAPTCHA — cannot be automated.
-- **datePublished format:** Must be full ISO 8601 with timezone (`2026-01-28T00:00:00-08:00`), not just a date. Google's validator flags date-only as "invalid datetime."
+- **datePublished format:** Prefer full ISO 8601 datetime with timezone (`2026-01-28T00:00:00-08:00`). Date-only values are valid, but Google defaults the timezone to Googlebot's. Non-ISO formats ("January 28, 2026") fail validation.
 - **og:image URLs:** Must be absolute including protocol (`https://site.com/image.png`), not relative paths.
 - **og:image caching:** Social platforms cache images by URL. Replacing the file at the same URL won't update previews — add a `?v=N` query parameter and increment it. Update ALL HTML files that reference the image.
 - **Social card template:** Keep a `social-card-template.html` alongside site source for easy regeneration when branding changes.

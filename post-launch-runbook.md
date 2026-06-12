@@ -57,7 +57,7 @@ Establish baselines while traffic is fresh. These numbers are your reference poi
 - [ ] **Request indexing** for the homepage and top pages in Search Console (URL Inspection → Request Indexing)
 - [ ] **Test social cards** — Share the URL on Facebook, Twitter/X, and LinkedIn. Verify the card image, title, and description render correctly.
   - Facebook: [Sharing Debugger](https://developers.facebook.com/tools/debug/) — click "Scrape Again"
-  - Twitter/X: [Card Validator](https://cards-dev.twitter.com/validator)
+  - Twitter/X: paste the URL into a draft post on x.com — the preview renders in the composer (the old Card Validator is defunct)
   - LinkedIn: [Post Inspector](https://www.linkedin.com/post-inspector/)
 - [ ] **Check robots.txt** — Verify it's accessible at `https://yoursite.com/robots.txt` and isn't accidentally blocking anything
 
@@ -116,7 +116,7 @@ The adrenaline has worn off. Now look at trends.
 
 - [ ] **Performance over 24 hours** — Has performance been stable or degrading? Check if there are time-of-day patterns (slow during peak hours = capacity issue).
 
-- [ ] **Search Console status** — Check Coverage report. Are pages being indexed? Any errors? "Discovered — currently not indexed" is normal for the first few days.
+- [ ] **Search Console status** — Check the Page indexing report (Indexing → Pages). Are pages being indexed? Any errors? "Discovered — currently not indexed" is normal for the first few days.
 
 - [ ] **Uptime report** — If you have uptime monitoring, check the 24-hour report. Any downtime periods you didn't notice?
 

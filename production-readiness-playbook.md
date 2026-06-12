@@ -305,7 +305,7 @@ Check each category. For each finding, cite file path, line numbers, code snippe
 - License scope and restrictions defined (no reverse-engineering, no redistribution)
 - Apple App Store: 10 required EULA sections (scope, maintenance, warranty, product claims, IP, legal compliance, contact info, third-party terms, third-party beneficiary, no App Store liability)
 - Google Play: compliance provisions for Play Developer Program Policies
-- Open source component acknowledgments and license compatibility verified (no GPL in proprietary, LGPL handled correctly)
+- Open-source component acknowledgments and license compatibility verified (no GPL in proprietary, LGPL handled correctly)
 
 ### Accessibility Statement
 - Accessibility statement page exists and is linked from footer
@@ -337,7 +337,7 @@ Check each category. For each finding, cite file path, line numbers, code snippe
 ### Copyright & Attribution
 - Copyright notice in footer with current year and correct entity name
 - All third-party assets properly licensed (fonts, images, icons, sound effects, music)
-- Open source licenses compatible and attributed (LICENSE file, NOTICES file, or SBOM)
+- Open-source licenses compatible and attributed (LICENSE file, NOTICES file, or SBOM)
 - No assets used under expired or personal-use-only licenses
 
 ### Age Restrictions

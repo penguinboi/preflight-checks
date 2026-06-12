@@ -60,7 +60,7 @@ Each item is binary: done or not done. If any **MUST** item is unchecked, you're
 | SHOULD | Legal acceptance tracking records who agreed to what and when | [ ] |
 | SHOULD | AI-generated content disclosed where required | [ ] |
 | SHOULD | Platform-specific requirements met (App Store, Google Play, etc.) | [ ] |
-| NICE | Open source licenses documented in NOTICES/SBOM | [ ] |
+| NICE | Open-source licenses documented in NOTICES/SBOM | [ ] |
 
 ## 4. Accessibility
 

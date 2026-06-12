@@ -1,0 +1,104 @@
+<!-- ABOUTME: Source for the repo's social preview card (social-preview.png). -->
+<!-- ABOUTME: Render at a 1280x640 viewport and screenshot; upload via Settings → General → Social preview. -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1280px; height: 640px; overflow: hidden;
+    background: linear-gradient(135deg, #0d1117 0%, #10171f 55%, #0f1d18 100%);
+    font-family: -apple-system, "SF Pro Display", "Segoe UI", Helvetica, Arial, sans-serif;
+    color: #e6edf3; display: flex; align-items: center;
+    position: relative;
+  }
+  .grid {
+    position: absolute; inset: 0;
+    background-image: radial-gradient(circle, #1f2937 1px, transparent 1px);
+    background-size: 28px 28px; opacity: 0.35;
+  }
+  .left { flex: 1.25; padding: 0 0 0 76px; position: relative; }
+  .kicker {
+    font-family: "SF Mono", ui-monospace, Menlo, monospace;
+    font-size: 22px; letter-spacing: 4px; color: #3fb950;
+    text-transform: uppercase; margin-bottom: 18px;
+  }
+  h1 { font-size: 82px; font-weight: 800; letter-spacing: -2px; line-height: 1.02; }
+  h1 .dim { color: #8b949e; }
+  .tagline { font-size: 32px; color: #9da7b3; margin-top: 22px; font-weight: 400; }
+  .chips { margin-top: 36px; display: flex; gap: 10px; }
+  .chip {
+    font-family: "SF Mono", ui-monospace, Menlo, monospace; font-size: 16px;
+    padding: 8px 14px; border: 1px solid #30363d; border-radius: 999px;
+    color: #c9d1d9; background: rgba(22, 27, 34, 0.8); white-space: nowrap;
+  }
+  .repo {
+    margin-top: 52px;
+    font-family: "SF Mono", ui-monospace, Menlo, monospace;
+    font-size: 19px; color: #8b949e;
+  }
+  .repo b { color: #58a6ff; font-weight: 600; }
+  .board {
+    flex: 1; display: flex; justify-content: center; position: relative;
+  }
+  .panel {
+    width: 380px; background: rgba(22, 27, 34, 0.92);
+    border: 1px solid #30363d; border-radius: 16px;
+    padding: 30px 34px; box-shadow: 0 24px 60px rgba(0,0,0,0.5);
+    transform: rotate(2deg);
+  }
+  .panel-title {
+    font-family: "SF Mono", ui-monospace, Menlo, monospace;
+    font-size: 18px; color: #8b949e; letter-spacing: 2px;
+    border-bottom: 1px solid #30363d; padding-bottom: 14px; margin-bottom: 16px;
+  }
+  .row { display: flex; align-items: center; gap: 14px; padding: 8px 0; font-size: 24px; }
+  .box {
+    width: 26px; height: 26px; border-radius: 6px; flex-shrink: 0;
+    border: 2px solid #3fb950; background: #12261a;
+    display: flex; align-items: center; justify-content: center;
+    color: #3fb950; font-size: 18px; font-weight: 700;
+  }
+  .go {
+    margin-top: 18px; padding-top: 18px; border-top: 1px solid #30363d;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .go-label { font-family: "SF Mono", ui-monospace, Menlo, monospace; font-size: 18px; color: #8b949e; letter-spacing: 2px; }
+  .go-badge {
+    font-family: "SF Mono", ui-monospace, Menlo, monospace; font-weight: 700;
+    font-size: 26px; color: #0d1117; background: #3fb950;
+    padding: 6px 22px; border-radius: 8px; letter-spacing: 3px;
+  }
+</style>
+</head>
+<body>
+  <div class="grid"></div>
+  <div class="left">
+    <div class="kicker">// production readiness</div>
+    <h1>Preflight<br>Checks<span class="dim">.</span></h1>
+    <div class="tagline">Ship with confidence — on any stack.</div>
+    <div class="chips">
+      <span class="chip">8 audits</span>
+      <span class="chip">go/no-go checklist</span>
+      <span class="chip">72h runbook</span>
+      <span class="chip">rollback tree</span>
+    </div>
+    <div class="repo"><b>penguinboi/preflight-checks</b> · MIT · for AI assistants or manual use</div>
+  </div>
+  <div class="board">
+    <div class="panel">
+      <div class="panel-title">PRE-LAUNCH</div>
+      <div class="row"><span class="box">✓</span> Quality</div>
+      <div class="row"><span class="box">✓</span> Security</div>
+      <div class="row"><span class="box">✓</span> Compliance</div>
+      <div class="row"><span class="box">✓</span> Accessibility</div>
+      <div class="row"><span class="box">✓</span> Performance</div>
+      <div class="row"><span class="box">✓</span> SEO</div>
+      <div class="row"><span class="box">✓</span> Operations</div>
+      <div class="row"><span class="box">✓</span> Open Source</div>
+      <div class="go"><span class="go-label">DECISION</span><span class="go-badge">GO</span></div>
+    </div>
+  </div>
+</body>
+</html>

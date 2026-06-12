@@ -82,7 +82,7 @@ Generate a one-sentence-each bulleted list of code smells that linters miss, tai
 
 Add stack-specific categories as needed (e.g., "Widget lifecycle" for Flutter, "Memory management" for Swift, "Unsafe blocks" for Rust).
 
-Once you've identified the stack, search the web for "[framework] code smells that linters miss" and "[framework] common anti-patterns" to find additional stack-specific smells not listed above. Incorporate any relevant findings as extra categories before scanning.
+Once you've identified the stack, search the web for "[framework] code smells that linters miss" and "[framework] common anti-patterns" to find additional stack-specific smells not listed above. Incorporate any relevant findings as extra categories before scanning. If web search is not available, skip this step and rely on the categories above plus stack-specific additions you can infer from the detected framework.
 
 Keep it to smells that static analysis genuinely cannot catch — things requiring understanding of intent, data flow, or runtime behavior.
 
@@ -94,6 +94,12 @@ Then find ALL examples of every smell across the codebase. For each finding:
 4. Briefly explain why it's a problem
 
 ## Part 4: Output
+
+**Severity levels:**
+- CRITICAL — Causes bugs in production (data corruption, crashes, broken core flows)
+- HIGH — Fragile, breaks under pressure or edge cases
+- MEDIUM — Maintenance burden, tech debt
+- LOW — Cosmetic, minor improvements
 
 Produce two documents:
 
@@ -385,7 +391,7 @@ After both documents are saved, ask me whether I want to execute the plan.
 Covers: semantic HTML, keyboard navigation, screen readers, color contrast, ARIA, focus management. Skip this for backend-only or CLI projects.
 
 ```
-Perform an accessibility (a11y) audit of this project's user interface. Detect the tech stack automatically.
+Perform an accessibility (a11y) audit of this project's user interface. Detect the tech stack automatically. If the project has no user interface (backend-only service, CLI tool, or library), state that this audit does not apply and stop.
 
 ## Part 1: Automated Checks
 
@@ -566,7 +572,7 @@ This section incorporates the full SEO playbook — audit checks, implementation
 ```
 Perform an SEO and discoverability audit of this project. Detect the tech stack automatically. This is a source code review for SEO best practices — flag any manual tasks (Search Console, Rich Results Test, social card validators) for the user to handle.
 
-Refer to the "SEO Implementation Templates" and "SEO Gotchas & Lessons Learned" sections that follow this prompt for reference material (HTML templates, JSON-LD examples, commands, and known pitfalls).
+If you have access to the full playbook file, refer to the "SEO Implementation Templates" and "SEO Gotchas & Lessons Learned" sections that follow this prompt for reference material (HTML templates, JSON-LD examples, commands, and known pitfalls). Otherwise, apply standard SEO templates for flagged items.
 
 ## Part 1: Stack Detection
 
@@ -634,8 +640,8 @@ Check each category. For each finding, cite file path, line numbers, code snippe
 - Images sized to display dimensions (not serving oversized originals)
 
 ### Performance (SEO-impacting factors)
-- Lighthouse scores: Performance > 90, SEO > 95, Accessibility > 95
-- Core Web Vitals: LCP < 2.5s, INP < 200ms, CLS < 0.1
+- Lighthouse scores: Performance > 90, SEO > 95, Accessibility > 95 (flag for user — requires running Lighthouse CLI or PageSpeed Insights against a live or locally served site)
+- Core Web Vitals: LCP < 2.5s, INP < 200ms, CLS < 0.1 (flag for user — requires a live site)
 - Render-blocking resources minimized (async/defer on scripts, preloaded critical fonts)
 - No unused JavaScript or CSS increasing page weight
 
@@ -643,7 +649,7 @@ Check each category. For each finding, cite file path, line numbers, code snippe
 - rss.xml exists and is valid
 - <link rel="alternate" type="application/rss+xml"> in <head> of blog pages
 
-### Manual Tasks (flag for the user — these require browser login)
+### Manual Tasks (flag for the user — these require browser login or a live site)
 - Google Search Console: property verified, sitemap submitted
 - Bing Webmaster Tools: imported from GSC
 - Rich Results Test: each page with structured data validated (reCAPTCHA blocks automation)
@@ -968,6 +974,7 @@ Produce two documents:
 - Tasks ordered by severity
 - Each task: what to implement, which tools/services to use, how to verify
 - Distinguish between "code changes" and "infrastructure/service setup"
+- Flag any checks that cannot be verified from source code (uptime monitoring, backup restoration, alert firing, rollback timing) as "verify manually — requires production access"
 - Include verification steps
 
 After both documents are saved, ask me whether I want to execute the plan.

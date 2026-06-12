@@ -19,6 +19,7 @@
 | [Post-Launch Runbook](post-launch-runbook.md) | Hour-by-hour monitoring guide with platform-specific sections | First 72 hours after launch |
 | [Rollback Decision Tree](rollback-decision-tree.md) | Severity triage — rollback, hotfix, or accept and monitor | When something breaks |
 | [Start Here](start-here.md) | One prompt that runs the full process end-to-end | Getting started |
+| [Sample Audit Output](examples/) | A completed security audit + remediation plan for a fictional project | Before your first run — see what you'll get |
 
 ---
 

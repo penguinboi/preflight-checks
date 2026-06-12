@@ -118,10 +118,14 @@ Each item is binary: done or not done. If any **MUST** item is unchecked, you're
 | MUST | Rollback procedure documented and tested (< 5 min) — for mobile/desktop binaries where rollback is impossible, a kill-switch or staged-rollout halt procedure instead | [ ] |
 | MUST | Environment variables and secrets configured for production | [ ] |
 | MUST | Production database backed up (and backup tested) | [ ] |
+| MUST* | Transactional email verified — arrives in a real external inbox (not spam), sender out of sandbox mode, SPF/DKIM/DMARC configured (if the app sends email) | [ ] |
 | SHOULD | Error tracking service integrated (Sentry, etc.) | [ ] |
 | SHOULD | Uptime monitoring configured (external ping) | [ ] |
 | SHOULD | Health check endpoint exists | [ ] |
 | SHOULD | Alerting configured for error rate spikes | [ ] |
+| SHOULD | Billing alarm configured on the hosting account (and on any usage-billed API keys) | [ ] |
+| SHOULD | TLS certificate auto-renewal verified; domain set to auto-renew with a valid payment method | [ ] |
+| SHOULD | Expected launch traffic estimated; likely bottleneck load-tested at 5-10x that estimate | [ ] |
 | SHOULD | Structured logging with log aggregation | [ ] |
 | NICE | Runbook for common ops tasks (restart, scale, clear cache) | [ ] |
 | NICE | Incident response plan documented (who gets paged) | [ ] |

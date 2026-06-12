@@ -904,6 +904,8 @@ Audit this project's operational readiness — everything needed to run reliably
 - Is there uptime monitoring (external ping)?
 - Are there alerts for error rate spikes, latency degradation, or resource exhaustion?
 - Are there dashboards for key metrics (request rate, error rate, latency, CPU/memory)?
+- Are billing/spend alerts configured (AWS Budgets, GCP budget alerts, provider spend caps), with hard caps where the platform supports them (API key quotas, function concurrency limits)?
+- Is TLS certificate expiry monitored (most uptime checkers include this) and auto-renewal verified to actually work? Is the domain set to auto-renew with a valid payment method?
 
 ## Part 2: Resilience
 
@@ -923,6 +925,10 @@ Audit this project's operational readiness — everything needed to run reliably
 - Are public endpoints rate-limited (login, signup, password reset, API)?
 - Is there protection against automated abuse (CAPTCHA, bot detection)?
 - Are file uploads validated (size limits, type checking, malware scanning)?
+
+### Capacity
+- What traffic is expected at launch, and has the likely bottleneck (database, API, auth) been load-tested at several times that estimate (k6, hey, ab)?
+- Does the hosting plan autoscale, or is there a manual scaling plan for traffic spikes (the launch announcement itself is often the biggest spike the system has seen)?
 
 ## Part 3: Deployment Safety
 

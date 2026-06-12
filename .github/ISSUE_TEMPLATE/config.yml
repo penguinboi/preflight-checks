@@ -1,3 +1,5 @@
+# ABOUTME: Issue template chooser config — disables blank issues.
+# ABOUTME: Routes questions and discussions to GitHub Discussions.
 blank_issues_enabled: false
 contact_links:
   - name: "💬 Question or Discussion"

@@ -1,3 +1,5 @@
+# ABOUTME: Issue form for reporting incorrect advice, broken links, or formatting issues.
+# ABOUTME: Collects the affected document, a description, and suggested correction.
 name: "Bug Report"
 description: "Report incorrect advice, broken links, or formatting issues"
 labels: ["bug"]

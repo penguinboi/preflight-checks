@@ -1,3 +1,5 @@
+# ABOUTME: Issue form for suggesting a new check, improving an existing one, or flagging a gap.
+# ABOUTME: Collects the target audit, the change, suggested severity, and references.
 name: "Content Suggestion"
 description: "Suggest a new check, improve an existing one, or flag a gap"
 labels: ["content"]

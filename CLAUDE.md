@@ -37,7 +37,7 @@ Each audit in `production-readiness-playbook.md` is a self-contained prompt desi
 5. **Performance** — Core Web Vitals, Lighthouse, bundle size, caching
 6. **SEO & Discoverability** — Meta tags, structured data, sitemaps, social cards (web only)
 7. **Operational Readiness** — Deployment, rollback, monitoring, alerting, backups
-8. **Open-Source Readiness** — Community files, licensing, versioning, contributor experience (public repos only)
+8. **Open-Source Readiness** — Community files, licensing, versioning, contributor experience, discoverability (public repos only)
 
 ## Severity Levels
 

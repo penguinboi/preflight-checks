@@ -1,2 +1,4 @@
+# ABOUTME: Specifies intentionally untracked files for this repository.
+# ABOUTME: Excludes the local-path start-here variant and .claude/ session data.
 start-here-local.md
 .claude/

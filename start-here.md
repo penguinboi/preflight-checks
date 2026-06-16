@@ -51,6 +51,8 @@ Present the recommended order and confirm with me before running the first audit
 
 For each audit, read the corresponding section from <PLAYBOOKS_PATH>/production-readiness-playbook.md and execute the prompt. Wait for my go-ahead between each audit.
 
+Before filing or reporting ANY finding in ANY audit, first check this repo's agent-instruction and audit-history files — `CLAUDE.md`, `AGENTS.md`, `.cursorrules`, `.github/copilot-instructions.md`, and prior reports under `docs/plans/` — for a "do not re-file / already addressed / won't-fix / by-design" list. Skip findings that match: documented design decisions and previously-rejected findings are out of scope and re-surfacing them wastes review cycles. If you believe a documented exclusion is now wrong, flag it for me to review rather than silently re-filing it.
+
 After each audit:
 1. Save the audit report and remediation plan to docs/plans/
 2. Summarize findings: how many CRITICAL, HIGH, MEDIUM, LOW

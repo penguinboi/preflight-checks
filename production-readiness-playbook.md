@@ -2,6 +2,8 @@
 
 Eight audits that take a project from "it works on my machine" to production-grade. Run them in order — each builds on the previous. Give each prompt to your AI coding assistant (Claude Code, Cursor, Copilot, Windsurf, etc.) in your project root — or use them as manual review checklists.
 
+> **Before filing findings — applies to every audit below.** Check the target repo's agent-instruction files (`CLAUDE.md`, `AGENTS.md`, `.cursorrules`, `.github/copilot-instructions.md`) and prior `docs/plans/` audit reports for a "do not re-file / already addressed / won't-fix / by-design" list, and skip any finding that matches. Documented design decisions and previously-rejected findings are out of scope — re-surfacing them wastes review cycles. If you believe a documented exclusion is now wrong, flag it for human review rather than silently re-filing it.
+
 ---
 
 ## Quick Reference

@@ -6,7 +6,7 @@ Production readiness playbooks for shipping software with confidence. Eight syst
 
 - **Repo:** `penguinboi/preflight-checks` (public, GitHub)
 - **License:** MIT
-- **Version:** 1.0.0
+- **Version:** 1.1.0 (verified 2026-10-08)
 
 ## Project Structure
 
@@ -21,10 +21,16 @@ CONTRIBUTING.md                    # Contribution guide and content style rules
 SECURITY.md                        # Vulnerability reporting policy
 CODE_OF_CONDUCT.md                 # Contributor Covenant
 CHANGELOG.md                       # Keep a Changelog format
+README.md                          # Project overview
+LICENSE                            # MIT
+examples/                          # Sample audit report and remediation plan
+docs/plans/                        # Open-source readiness design + plan
 .lychee.toml                       # Link checker config (excludes placeholder URLs)
 .github/workflows/links.yml        # CI: lychee broken-link checker on push/PR to main + weekly
 .github/dependabot.yml             # Keeps pinned GitHub Actions versions current
-.github/ISSUE_TEMPLATE/            # Bug report, feature request, content suggestion templates
+.github/ISSUE_TEMPLATE/            # Bug report, feature request, content suggestion .yml forms + config.yml
+.github/pull_request_template.md   # PR template
+.github/social-preview.{html,png}  # GitHub social preview card
 ```
 
 ## The 8 Audits

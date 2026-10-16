@@ -17,7 +17,7 @@ Both are things we take seriously.
 **Primary:** Use [GitHub private vulnerability reporting][gh-pvr] on this
 repository. This keeps the conversation private until a fix is in place.
 
-**Backup:** Email [penguinboisoftware@gmail.com](mailto:penguinboisoftware@gmail.com)
+**Backup:** Email [support@penguinboisoftware.com](mailto:support@penguinboisoftware.com)
 with a description of the issue, affected files, and any suggested fix.
 
 Please do **not** open a public issue for security reports.
